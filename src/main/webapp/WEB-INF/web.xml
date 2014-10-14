@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>Smart Meter Data Analytics</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <resource-ref>
+        <description>postgreSQL Datasource example</description>
+        <res-ref-name>jdbc/postgres</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <servlet>
+        <servlet-name>freemarker</servlet-name>
+        <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+
+        <!-- FreemarkerServlet settings: -->
+        <init-param>
+            <param-name>TemplatePath</param-name>
+            <param-value>/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>NoCache</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ContentType</param-name>
+            <param-value>text/html; charset=UTF-8</param-value>
+            <!-- Forces UTF-8 output encoding! -->
+        </init-param>
+
+        <!-- FreeMarker settings: -->
+        <init-param>
+            <param-name>template_update_delay</param-name>
+            <param-value>0</param-value>
+            <!-- 0 is for development only! Use higher value otherwise. -->
+        </init-param>
+        <init-param>
+            <param-name>default_encoding</param-name>
+            <param-value>ISO-8859-1</param-value>
+            <!-- The encoding of the template files. -->
+        </init-param>
+        <init-param>
+            <param-name>number_format</param-name>
+            <param-value>0.##########</param-value>
+        </init-param>
+
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MediatorServlet</servlet-name>
+        <servlet-class>ca.uwaterloo.iss4e.servlet.MediatorServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>QuartzInitializer</servlet-name>
+        <servlet-class> org.quartz.ee.servlet.QuartzInitializerServlet </servlet-class>
+        <init-param>
+            <param-name>shutdown-on-unload</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>start-scheduler-on-load</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>freemarker</servlet-name>
+        <url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>MediatorServlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
+    </servlet-mapping>
+
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>FreeMarker MVC Views</web-resource-name>
+            <url-pattern>*.ftl</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+        </auth-constraint>
+    </security-constraint>
+
+    <welcome-file-list>
+        <welcome-file>servlet</welcome-file>
+    </welcome-file-list>
+</web-app>

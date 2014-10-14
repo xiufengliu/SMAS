@@ -1,0 +1,85 @@
+<div id="messages" class="container-fluid">
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="#">Pages</a></li>
+            <li><a href="#">Messages</a></li>
+        </ol>
+    </div>
+</div>
+<div class="row" id="test">
+<div class="col-xs-12">
+<div class="row">
+<ul id="messages-menu" class="nav msg-menu">
+    <li>
+        <a href="index.html" class="" id="msg-inbox">
+            <i class="fa fa-inbox"></i>
+            <span class="hidden-xs">Inbox (3)</span>
+        </a>
+    </li>
+    <li>
+        <a href="index.html" class="" id="msg-starred">
+            <i class="fa fa-star"></i>
+            <span class="hidden-xs">Starred</span>
+        </a>
+    </li>
+    <li>
+        <a href="index.html" class="" id="msg-important">
+            <i class="fa fa-bookmark"></i>
+            <span class="hidden-xs">Important</span>
+        </a>
+    </li>
+    <li>
+        <a href="index.html" class="" id="msg-sent">
+            <i class="fa fa-reply"></i>
+            <span class="hidden-xs">Sent Mail</span>
+        </a>
+    </li>
+    <li>
+        <a href="index.html" class="" id="msg-draft">
+            <i class="fa fa-pencil"></i>
+            <span class="hidden-xs">Drafts (2)</span>
+        </a>
+    </li>
+    <li>
+        <a href="index.html" class="" id="msg-trash">
+            <i class="fa fa-trash-o"></i>
+            <span class="hidden-xs">Trash</span>
+        </a>
+    </li>
+</ul>
+<div id="messages-list" class="col-xs-10 col-xs-offset-2">
+    <div class="row one-list-message msg-inbox-item" id="msg-one">
+        <div class="col-xs-1 checkbox">
+            <label>
+                <input type="checkbox"> Yana Z.
+                <i class="fa fa-square-o small"></i>
+            </label>
+        </div>
+        <div class="col-xs-9 message-title"><b>Happy New Year</b> Dear friend! It's title of this message I send Dear friend! It's title of this message I send Dear friend! It's title of this message I send</div>
+        <div class="col-xs-2 message-date">12/31/13</div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+// Add listener for redraw menu when windows resized
+window.onresize = MessagesMenuWidth;
+$(document).ready(function() {
+	// Add class for correctly view of messages page
+	$('#content').addClass('full-content');
+	// Run script for change menu width
+	MessagesMenuWidth();
+	$('#content').on('click','[id^=msg-]', function(e){
+		e.preventDefault();
+		$('[id^=msg-]').removeClass('active');
+		$(this).addClass('active');
+		$('.one-list-message').slideUp('fast');
+		$('.'+$(this).attr('id')+'-item').slideDown('fast');
+	});
+	$('html').animate({scrollTop: 0},'slow');
+});
+</script>

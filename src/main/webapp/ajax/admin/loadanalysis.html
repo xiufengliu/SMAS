@@ -1,0 +1,113 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Charts</a></li>
+            <li><a href="#">Load analysis</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="well">
+    <div class="row">
+        <form class="form-horizontal" action="#">
+            <div class="form-group  has-feedback">
+                <div class="col-sm-2">
+                    <select id="levelSelector" class="form-control" onchange="javascript:changeLevel();">
+                        <option value="-1" selected>-Customer-</option>
+                        <option value="1">Household</option>
+                        <option value="2">Area</option>
+                        <option value="3">All</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="valueSelector" class="form-control" onchange="changeValue();">
+                        <option value="-1" selected>-Select value-</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="timeLevel" class="form-control">
+                        <option value="-1">-Aggregated by-</option>
+                        <option value=11>Hour</option>
+                        <option value=5>Day</option>
+                        <option value=2>Month</option>
+                        <option value=1>Year</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <!-- <input id="startDate" type="text" class="input-sm form-control" placeholder="StartDate yyyy-mm-dd"></input>-->
+                    <input id="startDate" type="text" class="form-control" placeholder="StartDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-sm-2">
+                    <!--<input id="endDate" type="text" class="input-sm form-control" placeholder="EndDate yyyy-mm-dd"></input>-->
+                    <input id="endDate" type="text" class="form-control" placeholder="EndDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-primary" onclick="javascript:submitToViewEnergy();">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-md-6">  </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="viewenergychart" class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Energy Consumption</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="timeseries-cavans" class="box-content"> </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#startDate').datepicker({setDate: new Date()});
+	$('#endDate').datepicker({setDate: new Date()});
+	WinMove();
+});
+
+function submitToViewEnergy(){
+   loadAnalysis.viewEnergyLoad();
+};
+
+function changeLevel(){
+    var level = $('#levelSelector option:selected').val();
+    $('#level').val(level);
+    $("#valueSelector").prop("disabled", false);
+    if (level==1){
+        customerMgnt.getValues('allCustomerIDs');
+    } else if (level==2){
+        customerMgnt.getValues('allAreaTowns');
+    } else if (level==3) {
+        $("#valueSelector").prop("disabled", true);
+       // customerMgnt.getValues('');
+    }
+};
+
+function changeValue(){
+    var value = $('#valueSelector option:selected').val();
+    $('#value').val(value);
+};
+
+</script>

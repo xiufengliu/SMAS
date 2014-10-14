@@ -1,0 +1,64 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+sourceCompatibility = 1.7
+//version = '1.0'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'net.sf.ehcache:ehcache:2.8.2'
+    compile 'org.apache.commons:commons-math:2.2'
+    compile 'org.quartz-scheduler:quartz:2.2.1'
+    compile 'org.json:json:20140107'
+    compile 'org.nuiton.thirdparty:JRI:0.9-6'
+    compile 'org.nuiton.thirdparty:REngine:1.7-3'
+    compile 'org.freemarker:freemarker:2.3.20'
+    runtime 'javax.servlet:jstl:1.1.2'
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    providedCompile 'postgresql:postgresql:9.1-901.jdbc4'
+    //runtime files('renjin-script-engine-0.7.0-RC8-SNAPSHOT-jar-with-dependencies.jar')
+   // runtime files('javaml-0.1.7.jar')
+    compile name: 'javaml-0.1.7'
+}
+
+task stopTomcat(type: Exec) {
+    commandLine '/opt/tomcat/bin/shutdown.sh'
+}
+
+
+task deletefiles(type: Delete, dependsOn: stopTomcat) {
+    delete "/opt/tomcat/webapps/smas.war"
+    delete "/opt/tomcat/webapps/smas"
+
+    FileTree tree = fileTree (dir: "/opt/tomcat/logs");
+    tree.each { File file ->
+        delete(file)
+    }
+}
+
+
+
+task deploy(type: Copy, dependsOn: [deletefiles, war]) {
+    from "build/libs"
+    into "/opt/tomcat/webapps"
+    include "*.war"
+}
+
+task run(type: Exec, dependsOn: deploy) {
+    commandLine '/opt/tomcat/bin/startup.sh'
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

@@ -1,0 +1,118 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Charts</a></li>
+            <li><a href="#">Forcasting</a></li>
+        </ol>
+    </div>
+</div>
+<div class="well">
+    <div class="row">
+        <form class="form-horizontal" action="#">
+            <div class="form-group  has-feedback">
+                <div class="col-md-2">
+                    <select id="levelSelector" class="form-control" onchange="changeLevel();">
+                        <option value="-1" selected>-Forcasting level-1-</option>
+                        <option value="1">Household</option>
+                        <option value="2">Area</option>
+                        <option value="3">Overall</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="valueSelector" class="form-control" onchange="changeValue();">
+                        <option value="-1" selected>-Select value-</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="forcastmodel" class="form-control">
+                        <option value="-1">-Forcast model-</option>
+                        <option value="byHoltWinters">HoltWinters-exponential smoothing</option>
+                        <option value="byARIMA">ARIMA</option>
+                        <option value="byNeuralNetwork">Neural network</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <input id="forcasttime" type="text" class="form-control" placeholder="Forcast time">
+                        <div class="input-group-btn">
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:changeTimeUnit(11)">Hours</a></li>
+                                <li><a href="javascript:changeTimeUnit(5)">Days</a></li>
+                                <li><a href="javascript:changeTimeUnit(2)">Months</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" onclick="javascript:submitToForcast();">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-md-6">  </div>
+    </div>
+    <div class="row">
+        <input id="forcasttimeunit" type="hidden" value=-1/>
+        <img src="img/vspace.png"/>
+    </div>
+</div>
+
+<div class="row">
+    <div  class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Forcasting</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="forcast-cavans" class="box-content"> </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(".dropdown-menu li a").click(function(){
+  var selText = $(this).text();
+  $(this).parents('.input-group-btn').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+});
+
+function changeLevel(){
+    var level = $('#levelSelector option:selected').val();
+    $('#level').val(level);
+    if (level==1){
+        customerMgnt.getValues('allCustomerIDs');
+    } else if (level==2){
+        customerMgnt.getValues('allAreaTowns');
+    } else {
+        customerMgnt.getValues('');
+    }
+};
+
+function changeValue(){
+    var value = $('#valueSelector option:selected').val();
+    $('#value').val(value);
+};
+
+function changeTimeUnit(n){
+    $('#forcasttimeunit').val(n);
+};
+
+function submitToForcast(){
+    forcasting.forcast();
+}
+</script>

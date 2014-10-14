@@ -1,0 +1,146 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Charts</a></li>
+            <li><a href="#">Feedback Service</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="well">
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="ruleName" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="ruleName" class="form-control" placeholder="Rule Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ruletype-name" class="col-sm-2 control-label">Feedback:</label>
+                <div id="ruletype-name" class="col-sm-8">
+                    <select id="typeID" class="form-control" onchange="javascript:feedbackService.changeRuleType();">
+                        <option value="-1">-Select feedback rule-</option>
+                    </select>
+                </div>
+            </div>
+            <div id="formtemplate"></div>
+            <div class="form-group">
+                <label for="receiver-value" class="col-sm-2 control-label">Receivers:</label>
+                <div id="receiver-value" class="col-sm-4">
+                    <select id="username"  class="multiselect" multiple="multiple" >
+                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="message">Message:</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" rows="4" id="message"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Schedule Start Time:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="nextStartTime" placeholder="Effective start time">
+                </div>
+                <label for="repeatInterval" class="col-sm-2 control-label">Repeat Interval:</label>
+                <div class="col-sm-2">
+                    <input type="text" id="repeatInterval" class="form-control" placeholder="Repeat Interval (hours)">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-primary"  onclick="javascript:feedbackService.addRule();">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-md-6">  </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-table"></i>
+                    <span>Feedback services</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped table-bordered table-hover table-heading no-border-bottom" id="feedbacks">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Rule</th>
+                            <th>Receivers</th>
+                            <th>Next start time</th>
+                            <th>Repeat interval (hour)</th>
+                            <th>Enable?</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function AllTimePickers(){
+	$('#nextStartTime').datetimepicker({});
+}
+
+$(document).ready(function() {
+	LoadTimePickerScript(AllTimePickers);
+// $('.multiselect').multiselect();
+
+     $('.multiselect').multiselect({includeSelectAllOption: true});
+
+	// Run beauty tables plugin on every table with class .beauty-table
+	$('.beauty-table').each(function(){
+		// Run keyboard navigation in table
+		$(this).beautyTables();
+		// Nice CSS-hover row and col for current cell
+		$(this).beautyHover();
+	});
+	// Attach to click action for create JSON data from tables.
+	$('.beauty-table-to-json').on('click', function(e){
+		e.preventDefault();
+		var table = $(this).closest('.box').find('table');
+		Table2Json(table);
+	});
+	feedbackService.showFormAndRules();
+	// Add Drag-n-Drop feature
+	WinMove();
+});
+
+function changeRuleType(){
+     feedbackService.changeRuleType();
+};
+
+
+function deleteMe(ruleid){
+	feedbackService.deleteRule(ruleid);
+	var par = $(this).parent().parent(); //tr
+    par.remove();
+};
+</script>

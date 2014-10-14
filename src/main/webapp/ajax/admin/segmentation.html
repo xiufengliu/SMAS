@@ -1,0 +1,165 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Charts</a></li>
+            <li><a href="#">Customer Segmentation</a></li>
+        </ol>
+    </div>
+</div>
+<div class="well">
+    <div class="row">
+        <form class="form-horizontal" action="#">
+            <div class="form-group  has-feedback">
+                <div class="col-sm-2">
+                    <select id="features" class="form-control">
+                        <option value="-1" style="color:gray">-Segmentation-</option>
+                        <option value="segmentByBaseLoad">Base load</option>
+                        <option value="segmentByActivityLoad">Activity load</option>
+                        <option value="segmentByBaseActivityLoad">Base load + Activity load</option>
+                        <option value="segmentByDailyAvgLoadProfile">Daily average load profile</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <!-- <input id="startDate" type="text" class="input-sm form-control" placeholder="StartDate yyyy-mm-dd"></input>-->
+                    <input id="startDate" type="text" class="form-control" placeholder="StartDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-sm-2">
+                    <!--<input id="endDate" type="text" class="input-sm form-control" placeholder="EndDate yyyy-mm-dd"></input>-->
+                    <input id="endDate" type="text" class="form-control" placeholder="EndDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-sm-2">
+                    <select id="distance"  class="form-control">
+                        <option value="-1" style="color:gray">-Distance-</option>
+                        <option value="squared_dist_norm2">Euclidean</option>
+                        <option value="dist_norm1">Manhattan</option>
+                        <option value="dist_angle">Cosine</option>
+                        <option value="dist_tanimoto">Tanimoto</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="ncluster"  class="form-control" onchange="return;">
+                        <option value=-1 selected style="color:gray">-nClusters-</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                        <option value=9>9</option>
+                        <option value=10>10</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary" onclick="javascript:submitToViewSegmentation();">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-sm-6">  </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="centroid" class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Centroids</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="centroid-cavans" class="box-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="segmentationonmap" class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Clustering on Google Map</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="map-cavans" class="box-content" style="height:600px">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#startDate').datepicker({setDate: new Date()});
+	$('#endDate').datepicker({setDate: new Date()});
+	WinMove();
+})
+
+function viewOthersEnergy(meterid){
+    if (!$('#viewotherenergybox').length){
+      $("#ajax-content").append(" \
+        <div id='viewotherenergybox' class='row'> \
+            <div  class='col-md-12'> \
+                <div class='box'> \
+                    <div class='box-header'> \
+                        <div class='box-name'> \
+                            <i class='fa fa-bar-chart-o'></i> \
+                            <span>Energy consumption time-series data</span> \
+                        </div> \
+                        <div class='box-icons'> \
+                            <a class='collapse-link'> \
+                                <i class='fa fa-chevron-up'></i> \
+                            </a> \
+                            <a class='expand-link'> \
+                                <i class='fa fa-expand'></i> \
+                            </a> \
+                            <a class='close-link'> \
+                                <i class='fa fa-times'></i> \
+                            </a> \
+                        </div> \
+                        <div class='no-move'></div> \
+                    </div> \
+                    <div id='timeseries-cavans' class='box-content'> </div> \
+                    </div> \
+                </div> \
+            </div> \
+        </div> \
+      ");
+    }
+    loadAnalysis.view(1, meterid, 11, $('#startDate').val(), $('#endDate').val());
+}
+
+function submitToViewSegmentation(){
+    segmentation.view();
+}
+</script>

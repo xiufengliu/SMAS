@@ -1,0 +1,144 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Charts</a></li>
+            <li><a href="#">Profile Consumption</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row well">
+    <div class="row col-md-12">
+        <form class="form-horizontal" action="#">
+            <div class="form-group  has-error has-feedback">
+                <div class="col-md-3">
+                    <!-- <input id="startDate" type="text" class="input-sm form-control" placeholder="StartDate yyyy-mm-dd"></input>-->
+                    <input id="startDate" type="text" class="form-control" placeholder="StartDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-md-3">
+                    <!--<input id="endDate" type="text" class="input-sm form-control" placeholder="EndDate yyyy-mm-dd"></input>-->
+                    <input id="endDate" type="text" class="form-control" placeholder="EndDate mm/dd/yyyy">
+                    <span class="fa fa-calendar txt-danger form-control-feedback"></span>
+                </div>
+                <div class="col-md-3">
+                    <select id="nbuckets" class="form-control" onchange="profileEnergy_histogram.getHistogram();">
+                        <option value=-1>-nbuckets-</option>
+                        <option value=5>5</option>
+                        <option value=10>10</option>
+                        <option value=15>15</option>
+                        <option value=20 selected>20</option>
+                        <option value=25>25</option>
+                        <option value=30>30</option>
+                        <option value=35>35</option>
+                        <option value=40>40</option>
+                        <option value=45>45</option>
+                        <option value=50>50</option>
+                        <option value=55>55</option>
+                        <option value=60>60</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" onclick="javascript:submitToProfileEnergy();">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-sm-6"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Threelines</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="threel-cavans" class="box-content">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Histogram</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="histogram-cavans" class="box-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Average hourly activity load</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="avgactivityload-cavans" class="box-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+ <script type="text/javascript">
+$(document).ready(function() {
+	$('#startDate').datepicker({setDate: new Date()});
+	$('#endDate').datepicker({setDate: new Date()});
+	WinMove();
+});
+
+function submitToProfileEnergy(){
+    profileEnergy_threel.getThreel();
+    profileEnergy_histogram.getHistogram();
+    profileEnergy_avgHourlyActivityLoad.getAvgHourlyActivityLoad();
+};
+</script>

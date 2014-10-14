@@ -1,0 +1,101 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="index.html">Charts</a></li>
+            <li><a href="#">Customer Segmentation</a></li>
+        </ol>
+    </div>
+</div>
+<div class="well">
+    <div class="row">
+        <form class="form-horizontal" action="#">
+            <div class="form-group  has-feedback">
+                <div class="col-md-2">
+                    <select id="measure" class="form-control" onchange="">
+                        <option value="-1">-Load Profile-</option>
+                        <option value="tenpct">10-percentile</option>
+                        <option value="fiftypct">Median</option>
+                        <option value="ninetypct">90-percentile</option>
+                        <option value="average">Average</option>
+                        <option value="activity_avg_weekday">Activity load (weekday)</option>
+                        <option value="activity_avg_holiday">Activity load (weekend/Holiday)</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="subCmd" class="form-control" onchange="">
+                        <option value="viewCentroid">Centroid</option>
+                        <option value="viewClusteredHouseHold">Clustered Households</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" onclick="javascript:segmentation.view();">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="errmsg-content" class="col-sm-6">  </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Consumption Pattern</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id='consumptionpattern-cavans' class="box-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="segmentationonmap" class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Clustering on Google Map</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div id="map-cavans" class="box-content" style="height:600px">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	WinMove();
+})
+</script>
