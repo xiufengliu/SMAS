@@ -5,7 +5,7 @@ Figure 1 shows the architecture of SMAS.  The real-time layer consumes raw smart
 The analytics layer uses PostgreSQL as the database,  MADLib as the (in-database) machine learning library,  Highcharts (www.highcharts.com) as the visualization engine, and Tomcat as the web application server. 
 ![The architecture of SMAS](https://dl.dropboxusercontent.com/u/8691433/benchmark/img/smas.png)
 
-The main functionalities:
+The functionalities:
 ============================
 * *Customer consumption time series analytics;*
 * *Pattern discovery;*
