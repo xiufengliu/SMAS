@@ -7,7 +7,8 @@ The analytics layer uses PostgreSQL as the database,  MADLib as the (in-database
 
 The functionalities:
 ============================
-* *Customer consumption time series analytics;*
+* *Consumption time series analytics;*
+* *Consumption profiling;*
 * *Pattern discovery;*
 * *Segmentation (clustering) analysis;*
 * *Consumer feedback;*
