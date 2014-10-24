@@ -6,10 +6,10 @@ The analytics layer uses PostgreSQL as the database,  MADLib as the (in-database
 
 The main functionalities of this system include:
 * *Customer consumption time series analytics;*
-* Pattern discovery;
-* segmentation (clustering) analysis;
-* Consumer feedback
-* Forecasting.  
+* *Pattern discovery;*
+* *Segmentation (clustering) analysis;*
+* *Consumer feedback;*
+* *Forecasting*
 
 ![The architecture of SMAS](https://dl.dropboxusercontent.com/u/8691433/benchmark/img/smas.png)
 
