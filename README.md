@@ -6,6 +6,8 @@ Figure 1 shows the architecture of SMAS, which consists of real-time layer, batc
 
 The functionalities:
 ============================
+This system is still under development. The current implementation has the following functionalities:
+
 * *Consumption time series analytics;*
 * *Consumption profiling;*
 * *Pattern discovery;*
