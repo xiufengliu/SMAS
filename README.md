@@ -6,5 +6,4 @@ The analytics layer uses PostgreSQL as the database and MADLib as the (in-databa
 
 ![The architecture of SMAS](https://dl.dropboxusercontent.com/u/8691433/benchmark/img/smas.png)
 
-The video of introducing SMAS
-[SMAS](https://www.youtube.com/watch?v=5717mOJSwfI&list=UU9F0rInEDHm1RiFD_R_TGMQ)
+The video of introducing [SMAS](https://www.youtube.com/watch?v=5717mOJSwfI&list=UU9F0rInEDHm1RiFD_R_TGMQ)
