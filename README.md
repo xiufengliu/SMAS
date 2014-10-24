@@ -17,7 +17,7 @@ The functionalities:
 
 Installation & Usage
 ===========================
-To use SMAS, users first have to install the open source RDBMS [PostgreSQL](http://www.postgresql.org/), the in-database machine learning toolkit, [MADlib](www.madlib.net), [Tomcat](http://tomcat.apache.org/). Then, run the the sql script to create the smas database, schema, tables and the analytics functions.
+To use SMAS, users first have to install the open source RDBMS [PostgreSQL](http://www.postgresql.org/), the in-database machine learning toolkit, [MADlib](www.madlib.net), the open source application server [Tomcat](http://tomcat.apache.org/). Then, run the the sql script to create the smas database, schema, tables and the analytics functions.
 
 When the above steps are done, run the gradlew to compile the the source codes, deploy the generated binary packages, and start the application, etc.
 
