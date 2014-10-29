@@ -89,14 +89,17 @@ import java.util.logging.Logger;
         } else if (compareMode == 2) {
             int timeLevel = Integer.parseInt(request.getParameter("timeLevel"));
             String selectedIDsStr = request.getParameter("selectedIDs");
-            System.out.println("selectedIDsStr=" + selectedIDsStr);
-            if (selectedIDsStr.length() > 2) {
+            String str = selectedIDsStr.replace("[", "");
+            str = str.replace("]", "");
+            String[] IDs = str.split(",");
+            if (IDs.length<2) {
+                throw new SMASException("You should select at least two neighbourhood on map!");
+            } else{
                 Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
                 Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
                 dao.getConsumptionByMeterID(powerMeterIDs[0], timeLevel, startDate, endDate, out);
                 dao.getAvgConsumption(timeLevel, selectedIDsStr, startDate, endDate, out);
-            } else
-                throw new SMASException("Please pick the households on map!");
+            }
         }
     }
 }
