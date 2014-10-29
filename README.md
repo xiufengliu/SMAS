@@ -30,4 +30,4 @@ Video
 
 Publication
 ========================
-[Here](https://db.tt/0SWiDFC6) is the demo paper accepted by ICDE 2015.
+[Here](https://db.tt/0SWiDFC6) is the demo paper accepted by [ICDE 2015](http://www.icde2015.kr/cfd.html)
