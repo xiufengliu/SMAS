@@ -26,4 +26,8 @@ When the above steps are done, run the gradlew to compile the the source codes, 
 
 Video
 ======================
-Here is the video of introducing [SMAS](https://www.youtube.com/watch?v=5717mOJSwfI&list=UU9F0rInEDHm1RiFD_R_TGMQ)
+[Here](https://www.youtube.com/watch?v=5717mOJSwfI&list=UU9F0rInEDHm1RiFD_R_TGMQ) is the video of introducing SMAS.
+
+Publication
+========================
+[Here](https://db.tt/0SWiDFC6) is the demo paper accepted by ICDE 2015.
