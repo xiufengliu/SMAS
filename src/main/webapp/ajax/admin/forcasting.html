@@ -1,8 +1,7 @@
 <div class="row">
     <div id="breadcrumb" class="col-md-12">
         <ol class="breadcrumb">
-            <li><a href="index.html">Charts</a></li>
-            <li><a href="#">Forcasting</a></li>
+            <li><a href="#">Forecasting</a></li>
         </ol>
     </div>
 </div>
@@ -12,10 +11,10 @@
             <div class="form-group  has-feedback">
                 <div class="col-md-2">
                     <select id="levelSelector" class="form-control" onchange="changeLevel();">
-                        <option value="-1" selected>-Forcasting level-1-</option>
+                        <option value="-1" selected>-Forecast By-</option>
                         <option value="1">Household</option>
-                        <option value="2">Area</option>
-                        <option value="3">Overall</option>
+                        <!--<option value="2">Area</option>
+                        <option value="3">Overall</option> -->
                     </select>
                 </div>
                 <div class="col-sm-2">
@@ -25,10 +24,10 @@
                 </div>
                 <div class="col-md-2">
                     <select id="forcastmodel" class="form-control">
-                        <option value="-1">-Forcast model-</option>
+                        <option value="-1">-Forecast model-</option>
                         <option value="byHoltWinters">HoltWinters-exponential smoothing</option>
                         <option value="byARIMA">ARIMA</option>
-                        <option value="byNeuralNetwork">Neural network</option>
+
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -45,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" onclick="javascript:submitToForcast();">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="javascript:submitToForecast();">Submit</button>
                 </div>
             </div>
         </form>
@@ -65,7 +64,7 @@
             <div class="box-header">
                 <div class="box-name">
                     <i class="fa fa-bar-chart-o"></i>
-                    <span>Forcasting</span>
+                    <span>Forecasting</span>
                 </div>
                 <div class="box-icons">
                     <a class="collapse-link">
@@ -99,7 +98,7 @@ function changeLevel(){
     } else if (level==2){
         customerMgnt.getValues('allAreaTowns');
     } else {
-        customerMgnt.getValues('');
+        customerMgnt.getValues('clear');
     }
 };
 
@@ -112,7 +111,7 @@ function changeTimeUnit(n){
     $('#forcasttimeunit').val(n);
 };
 
-function submitToForcast(){
+function submitToForecast(){
     forcasting.forcast();
 }
 </script>

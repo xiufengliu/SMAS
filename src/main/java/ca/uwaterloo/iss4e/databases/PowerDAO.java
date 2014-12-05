@@ -50,7 +50,8 @@ public interface PowerDAO extends DAO {
 
     void getWidthHistogram(int homeID, int nbuckets, Date startDate, Date endDate, JSONObject out) throws SMASException;
 
-    void getForcast(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException;
+    void getForcastByHoltWinters(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException;
+    void getForcastByARIMA(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException;
 
     void getCentroids(String measure, JSONObject out) throws SMASException;//Old to be removed!!!
     void getConsumptionCentroids(String measure, JSONObject out) throws SMASException;

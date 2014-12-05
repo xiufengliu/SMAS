@@ -74,32 +74,33 @@ import java.util.logging.Logger;
     public void compareOthers(ServletContext ctx, HttpServletRequest request,
                               HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
 
-        int compareMode = Integer.parseInt(request.getParameter("compareMode"));
-        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userinfo");
-        int[] powerMeterIDs = userInfo.getPowerMeterIDs();
-        if (compareMode == -1) {
-            viewMyEnergyLoad(ctx, request, response, out);
-        } else if (compareMode == 1) {
-            double radius = Double.parseDouble(request.getParameter("radius"));
-            int timeLevel = Integer.parseInt(request.getParameter("timeLevel"));
-            Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
-            Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
-            dao.getConsumptionByMeterID(powerMeterIDs[0], timeLevel, startDate, endDate, out);
-            dao.getAvgConsumptionWithinRadius(powerMeterIDs[0], timeLevel, radius, startDate, endDate, out);
-        } else if (compareMode == 2) {
-            int timeLevel = Integer.parseInt(request.getParameter("timeLevel"));
-            String selectedIDsStr = request.getParameter("selectedIDs");
-            String str = selectedIDsStr.replace("[", "");
-            str = str.replace("]", "");
-            String[] IDs = str.split(",");
-            if (IDs.length<2) {
-                throw new SMASException("You should select at least two neighbourhood on map!");
-            } else{
-                Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
-                Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
-                dao.getConsumptionByMeterID(powerMeterIDs[0], timeLevel, startDate, endDate, out);
-                dao.getAvgConsumption(timeLevel, selectedIDsStr, startDate, endDate, out);
-            }
-        }
+           int compareMode = Integer.parseInt(request.getParameter("compareMode"));
+           UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userinfo");
+           int[] powerMeterIDs = userInfo.getPowerMeterIDs();
+           if (compareMode == -1) {
+               viewMyEnergyLoad(ctx, request, response, out);
+           } else if (compareMode == 1) {
+               double radius = Double.parseDouble(request.getParameter("radius"));
+               int timeLevel = Integer.parseInt(request.getParameter("timeLevel"));
+               Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
+               Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
+               dao.getConsumptionByMeterID(powerMeterIDs[0], timeLevel, startDate, endDate, out);
+               dao.getAvgConsumptionWithinRadius(powerMeterIDs[0], timeLevel, radius, startDate, endDate, out);
+           } else if (compareMode == 2) {
+               int timeLevel = Integer.parseInt(request.getParameter("timeLevel"));
+               String selectedIDsStr = request.getParameter("selectedIDs");
+               String str = selectedIDsStr.replace("[", "");
+               str = str.replace("]", "");
+               String[] IDs = str.split(",");
+               if (IDs.length < 2) {
+                   throw new SMASException("You should select at least two neighbourhood on map!");
+               } else {
+                   Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
+                   Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
+                   dao.getConsumptionByMeterID(powerMeterIDs[0], timeLevel, startDate, endDate, out);
+                   dao.getAvgConsumption(timeLevel, selectedIDsStr, startDate, endDate, out);
+               }
+           }
+
     }
 }

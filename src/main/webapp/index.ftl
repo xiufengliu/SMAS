@@ -19,7 +19,7 @@
     <div id="page-login" class="row">
         <div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
             <div class="text-right">
-                <a href="page_register.html" class="txt-default">Need an account?</a>
+                <a href="/smas/servlet?cmd=accountmgnt&subCmd=getForm" class="txt-default">Need an account?</a>
             </div>
             <div class="box">
                 <div class="box-content">

@@ -1,0 +1,128 @@
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="#">Account administration</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="well">
+    <div class="row">
+        <div id="errmsg-content" class="col-md-6"></div>
+        <div class="col-md-1 col-sm-offset-11"><button type="button" class="btn btn-primary btn-lg">Edit</button>  <button type="button" class="btn btn-danger btn-lg" onclick="accountMgnt.deleteAccounts();">Delete</button></div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="accounts">
+            <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Electricity meters</th>
+                <th>Water meters</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <div class="box-name">
+                    <i class="fa fa-table"></i>
+                    <span>Edit User Account</span>
+                </div>
+                <div class="box-icons">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="expand-link">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="no-move"></div>
+            </div>
+            <div class="box-content">
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">User name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control"  name="username" value="afancy" disabled>
+                        </div>
+                        <label class="col-sm-2 control-label">Role</label>
+                        <div class="col-sm-4">
+                            <select id="role" class="form-control">
+                                <option value="-1" selected>-Select value-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">First name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="First name"  name="firstname" value="Xiufeng">
+                        </div>
+                        <label class="col-sm-2 control-label">Last name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Last name"  name="lastname" value="Liu">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control email" placeholder="Email" name="email" value="groupme@gmail.com">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Smart Meters</legend>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Power Meters</label>
+                        <div class="col-sm-4">
+                            <select id="powerMeterID" class="form-control">
+                                <option value="-1" selected>-Select value-</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">Water Meters</label>
+                        <div class="col-sm-4">
+                            <select id="waterMeterID" class="form-control">
+                                <option value="-1" selected>-Select value-</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <div class="col-sm-2 col-sm-offset-4">
+                        <button type="button" class="btn btn-primary btn-lg">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.multiselect').multiselect({includeSelectAllOption: true});
+	$('.beauty-table').each(function(){
+		$(this).beautyTables();
+		$(this).beautyHover();
+	});
+	$('.beauty-table-to-json').on('click', function(e){
+		e.preventDefault();
+		var table = $(this).closest('.box').find('table');
+		Table2Json(table);
+	});
+    accountMgnt.listAccounts(0);
+	WinMove();
+});
+</script>

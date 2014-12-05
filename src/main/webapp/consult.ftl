@@ -51,13 +51,6 @@
                     </div>
                     <div class="col-xs-4 col-sm-8 top-panel-right">
                         <ul class="nav navbar-nav pull-right panel-menu">
-
-                            <li class="hidden-xs">
-                                <a href="ajax/messages.html" class="ajax-link">
-                                    <i class="fa fa-envelope"></i>
-                                    <span class="badge">${msgcount}</span>
-                                </a>
-                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle account" data-toggle="dropdown">
                                     <div class="avatar">
@@ -70,24 +63,6 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-user"></i>
-                                            <span class="hidden-sm text">Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="ajax/page_messages.html" class="ajax-link">
-                                            <i class="fa fa-envelope"></i>
-                                            <span class="hidden-sm text">Messages</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-cog"></i>
-                                            <span class="hidden-sm text">Settings</span>
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="/smas/servlet?cmd=loginout&subCmd=logout">
                                             <i class="fa fa-power-off"></i>
@@ -109,12 +84,12 @@
     <div class="row">
         <div id="sidebar-left" class="col-xs-2 col-sm-2">
             <ul class="nav main-menu">
-                <li>
+    <!--            <li>
                     <a href="ajax/dashboard.html" class="active ajax-link">
                         <i class="fa fa-dashboard"></i>
                         <span class="hidden-xs">Home</span>
                     </a>
-                </li>
+                </li>  -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">
                         <i class="fa fa-bar-chart-o"></i>

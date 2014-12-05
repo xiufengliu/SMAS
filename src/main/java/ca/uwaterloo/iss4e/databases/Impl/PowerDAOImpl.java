@@ -1069,14 +1069,14 @@ public class PowerDAOImpl implements PowerDAO{
 
 
     @Override
-    public void getForcast(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException {
+    public void getForcastByHoltWinters(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException {
         Connection dbConn = null;
         try {
             dbConn = DAOUtils.getDBConnection();
-            JSONObject serie = new JSONObject();
-            serie.put("name", "Energy Consumption");
-            serie.put("color", "#7CB5EC");
-            serie.put("type", "line");
+            JSONObject actualSerie = new JSONObject();
+            actualSerie.put("name", "Energy Consumption");
+            actualSerie.put("color", "#7CB5EC");
+            actualSerie.put("type", "line");
             String sql;
             long minRange = 0;
             if (timeUnit == Calendar.HOUR_OF_DAY) {
@@ -1126,7 +1126,7 @@ public class PowerDAOImpl implements PowerDAO{
             if (points.length() < 1) {
                 throw new SMASException("Cannot find the records!");
             }
-            serie.put("data", points);
+            actualSerie.put("data", points);
 
             for (int i = 0; i < forcastTime; ++i) {
                 times.add(Utils.addTime(timeUnit, time, i + 1));
@@ -1152,13 +1152,13 @@ public class PowerDAOImpl implements PowerDAO{
             }
 
             JSONObject forecastSerie = new JSONObject();
-            forecastSerie.put("name", "Forcast Energy Consumption");
+            forecastSerie.put("name", "Forecast Energy Consumption By HoltWinters");
             forecastSerie.put("color", "#E53BBC");
             forecastSerie.put("type", "line");
             forecastSerie.put("data", forecastPoints);
 
             JSONArray series = new JSONArray();
-            series.put(serie);
+            series.put(actualSerie);
             series.put(forecastSerie);
             out.put("series", series);
         } catch (SQLException e) {
@@ -1167,4 +1167,105 @@ public class PowerDAOImpl implements PowerDAO{
             DAOUtils.freeConnection(dbConn);
         }
     }
+
+    @Override
+    public void getForcastByARIMA(int meterid, int forcastLevel, int forcastTime, int timeUnit, JSONObject out) throws SMASException {
+        Connection dbConn = null;
+        try {
+            dbConn = DAOUtils.getDBConnection();
+            JSONObject actualSerie = new JSONObject();
+            actualSerie.put("name", "Energy Consumption");
+            actualSerie.put("color", "#7CB5EC");
+            actualSerie.put("type", "line");
+            String sql;
+            long minRange = 0;
+            if (timeUnit == Calendar.HOUR_OF_DAY) {
+                minRange = 24 * 3600 * 1000L;
+                sql = "SELECT  readtime as time, reading AS total FROM smas_power_hourlyreading WHERE meterid=? and readtime::date between ? and ? order by 1";
+            } else if (timeUnit == Calendar.DAY_OF_MONTH) {
+                minRange = 30 * 24 * 3600 * 1000L;
+                sql = "SELECT TO_CHAR(readtime,'yyyy-mm-dd') AS time, sum(reading) AS total FROM smas_power_hourlyreading WHERE meterid=? and readtime::date between ? and ? GROUP BY time order by time";
+            } else if (timeUnit == Calendar.MONTH) {
+                minRange = 6 * 30 * 24 * 3600 * 1000L;
+                sql = "SELECT TO_CHAR(readtime, 'yyyy-MM') AS time, sum(reading) as total FROM smas_power_hourlyreading WHERE meterid=? and readtime::date between ? and ?  GROUP BY time  order by time";
+            } else {
+                minRange = 12 * 30 * 24 * 3600 * 1000L;
+                sql = "SELECT TO_CHAR(readtime, 'yyyy') AS time, sum(reading) as total FROM smas_power_hourlyreading WHERE meterid=? and readtime::date between ? and ? GROUP BY time  order by time";
+            }
+            out.put("minRange", minRange);
+            PreparedStatement pstmt = dbConn.prepareStatement(sql);
+            pstmt.setInt(1, meterid);
+            pstmt.setDate(2, Date.valueOf("2000-01-01"));
+            pstmt.setDate(3, Date.valueOf("2019-12-31"));
+
+            ResultSet rs = pstmt.executeQuery();
+            JSONArray points = new JSONArray();
+
+            List<Double> loads = new ArrayList<Double>();
+            List<Long> times = new ArrayList<Long>();
+            long time = 0;
+            while (rs.next()) {
+                JSONArray point = new JSONArray();
+                if (timeUnit == Calendar.HOUR_OF_DAY) { // 11
+                    time = Utils.getTime(rs.getString("time"), "UTC");
+                } else if (timeUnit == Calendar.DAY_OF_MONTH) { // 5
+                    time = Utils.getTimeByYearMonthDay(rs.getString("time"), "UTC");
+                } else if (timeUnit == Calendar.MONTH) { //2
+                    time = Utils.getTimeByYearMonth(rs.getString("time"), "UTC");
+                } else if (timeUnit == Calendar.YEAR) { //1
+                    time = Utils.getTimeByYear(rs.getString("time"), "UTC");
+                }
+                double load = rs.getDouble("total");
+                point.put(time);
+                point.put(load);
+                points.put(point);
+
+                loads.add(load);
+                times.add(time);
+            }
+            if (points.length() < 1) {
+                throw new SMASException("Cannot find the records!");
+            }
+            actualSerie.put("data", points);
+
+            for (int i = 0; i < forcastTime; ++i) {
+                times.add(Utils.addTime(timeUnit, time, i + 1));
+            }
+
+
+            Rengine engine = DAOUtils.getREngine();
+            engine.assign("loads", Utils.toPrimitiveArray(loads));
+            engine.eval("loadseries <-ts(loads, start=c(1))");
+            engine.eval("loadseriesarima <- arima(loadseries, order=c(2,0,0))");
+            engine.eval("library('forecast')");
+            engine.eval("forecastvalues<-forecast.Arima(loadseriesarima, h=" + forcastTime + ")");
+            REXP results = engine.eval("c(forecastvalues$fitted, forecastvalues$mean)");
+            double[] values = results.asDoubleArray();
+            JSONArray forecastPoints = new JSONArray();
+            for (int i = 0; i < values.length; ++i) {
+                double value = values[i];
+                //System.out.println(value);
+                JSONArray point = new JSONArray();
+                point.put(times.get(i));
+                point.put(Math.floor(100 * value + 0.5) / 100);
+                forecastPoints.put(point);
+            }
+
+            JSONObject forecastSerie = new JSONObject();
+            forecastSerie.put("name", "Forecast Energy Consumption by ARIMA");
+            forecastSerie.put("color", "#E53BBC");
+            forecastSerie.put("type", "line");
+            forecastSerie.put("data", forecastPoints);
+
+            JSONArray series = new JSONArray();
+            series.put(actualSerie);
+            series.put(forecastSerie);
+            out.put("series", series);
+        } catch (SQLException e) {
+            throw new SMASException(e);
+        } finally {
+            DAOUtils.freeConnection(dbConn);
+        }
+    }
+
 }

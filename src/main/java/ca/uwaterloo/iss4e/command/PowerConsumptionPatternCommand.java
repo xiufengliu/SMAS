@@ -35,13 +35,21 @@ public class PowerConsumptionPatternCommand implements Command {
 
         String measure = request.getParameter("measure");
         //dao.getCentroids(measure, out);
-        dao.getConsumptionCentroids(measure, out);
+        if (!"-1".equals(measure)) {
+            dao.getConsumptionCentroids(measure, out);
+        } else {
+            throw new SMASException("Please select load profile!");
+        }
     }
 
     public void viewClusteredHouseHold(ServletContext ctx, HttpServletRequest request,
                                        HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
         String measure = request.getParameter("measure");
-        dao.getClusteredHouseHolds(measure, out);
+        if (!"-1".equals(measure)) {
+            dao.getClusteredHouseHolds(measure, out);
+        } else {
+            throw new SMASException("Please select load profile!");
+        }
     }
 
 }

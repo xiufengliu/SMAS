@@ -34,6 +34,7 @@ import org.json.JSONObject;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.
  */
+
 public class MediatorServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(MediatorServlet.class.getName());
     Hashtable<String, Command> commands = new Hashtable<String, Command>();
@@ -50,6 +51,8 @@ public class MediatorServlet extends HttpServlet {
         ctx.setAttribute(Constant.CACHE, cache);
 
         commands.put(Constant.LOGIN, new AuthorizationCommand(new String[]{"/index.ftl", "/utility.ftl",  "/consult.ftl", "/customer.ftl"}));
+        commands.put(Constant.ACCOUNT_MGNT, new AccountManagementCommand(new String[]{"/ajax/account/register.ftl", "/ajax/account/registersucc.ftl"}));
+
         commands.put(Constant.USER, new UserCommand());
         commands.put(Constant.CUSTOMER_MGNT, new PowerCustomerManagementCommand());
         commands.put(Constant.FEEDBACK_SERVICE, new FeedbackCommand());
@@ -77,10 +80,13 @@ public class MediatorServlet extends HttpServlet {
                 request.getRequestDispatcher("/index.ftl").forward(request, response);
                 return;
             }
+
             if (!cmd.equals(Constant.LOGIN) &&
+                !cmd.equals(Constant.ACCOUNT_MGNT) &&
                  request.getSession().getAttribute("userinfo")==null){
                 throw new SMASException("Session is timed out! Please log in again!");
             }
+
             Object cmdObj = commands.get(cmd);
             if (cmdObj == null) {
                 request.getRequestDispatcher("/index.ftl").forward(request, response);
@@ -98,7 +104,7 @@ public class MediatorServlet extends HttpServlet {
                 out.write(writer);
                 writer.flush();
             } catch (Exception ee) {
-                System.out.println(">>>>>>>>>>>>>>>>>>>>flushed exception!!!");
+                System.out.println("Flushed exception!!!");
                 ee.printStackTrace();
             }
         }

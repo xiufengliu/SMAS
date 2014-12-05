@@ -1183,3 +1183,75 @@ var message = (function(){
         }
     }
 })();
+
+
+var accountMgnt = (function(){
+    var sent = {
+            cmd: 'accountmgnt',
+            subCmd:'',
+            offset:0,
+            userIDs:''
+    };
+
+    accountTableFun = function(){
+        accountTable = $('#accounts').dataTable({
+                "aaSorting": [[ 0, "asc" ]],
+                "sDom": "<'box-content'<'col-sm-6'f><'col-sm-6 text-right'l><'clearfix'>>rt<'box-content'<'col-sm-6'i><'col-sm-6 text-right'p><'clearfix'>>",
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                    "sSearch": "",
+                    "sLengthMenu": '_MENU_'
+                },
+                "bRetrieve":true,
+                "bDestroy":true
+            });
+    };
+
+    readAccounts = function(data){
+        var accounts = data['accounts'];
+        for (var i=0; i<accounts.length; ++i){
+            var account =  accounts[i];
+            var newRowContent = "<tr id="+ account['userID'] +">" +
+                                "<td>" +
+                                "    <div class='checkbox-inline'>" +
+                                "      <label>" +
+                                "      <input type='checkbox' value="+ account['userID'] +">" +
+                                "&nbsp;&nbsp;&nbsp;&nbsp;" + account['userID']  +
+                                "         <i class='fa fa-square-o'></i>" +
+                                "      </label>" +
+                                "    </div>" +
+                                "</td>" +
+                                "<td>"+account['username']+"</td>" +
+                                "<td>"+account['fullname']+"</td>" +
+                                "<td>"+account['email']+"</td>" +
+                                "<td>"+account['rolename']+"</td>" +
+                                "<td>"+account['powerMeterIDs']+"</td>" +
+                                "<td>"+account['waterMeterIDs']+"</td>" +
+                                "</tr>";
+            $("#accounts tbody").append(newRowContent);
+        }
+        LoadDataTablesScripts(accountTableFun);
+    };
+
+    removeAccounts = function(data){
+        var userIDs = data['userIDs'];
+        for(var i=0; i<userIDs.length; ++i){
+            $('table#accounts tr#'+userIDs[i]).remove();
+        }
+    };
+
+    return {
+        listAccounts: function(offset){
+            sent['subCmd'] = 'read';
+            sent['offset'] = offset;
+            controller(sent, readAccounts);
+        },
+        deleteAccounts:function(){
+            sent['subCmd'] = 'delete';
+            sent['userIDs'] =  $(':checkbox:checked').map(function() {
+                                            return $( this ).val();
+                                         }).get().join( ", " );
+            controller(sent, removeAccounts);
+        }
+    }
+})();

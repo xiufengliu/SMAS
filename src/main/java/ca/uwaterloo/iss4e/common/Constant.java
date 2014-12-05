@@ -23,6 +23,8 @@ public interface Constant {
     final static String CACHE = "dbCache";
     final static  String FEEDBACK_SERVICE="feedbackservice";
 
+    final static String ACCOUNT_MGNT = "accountmgnt";
+
     final static String METERIDS = "meterids";
     final static String AREA_TOWN="areatown";
     final static String LOGIN = "loginout";

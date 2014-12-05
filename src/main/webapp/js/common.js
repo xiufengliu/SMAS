@@ -291,6 +291,26 @@ function LoadTimePickerScript(callback){
 	}
 }
 
+function LoadDataTablesScripts(callback){
+	function LoadDatatables(){
+		$.getScript('plugins/datatables/jquery.dataTables.js', function(){
+			$.getScript('plugins/datatables/ZeroClipboard.js', function(){
+				$.getScript('plugins/datatables/TableTools.js', function(){
+					$.getScript('plugins/datatables/dataTables.bootstrap.js', callback);
+				});
+			});
+		});
+	}
+	if (!$.fn.dataTables){
+		LoadDatatables();
+	}
+	else {
+		if (callback && typeof(callback) === "function") {
+			callback();
+		}
+	}
+}
+
 //
 //  Function maked all .box selector is draggable, to disable for concrete element add class .no-drop
 //

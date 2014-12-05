@@ -67,4 +67,9 @@ public class PowerCustomerManagementCommand implements Command{
         out.put("values", areaTowns);
     }
 
+    public void clear(ServletContext ctx, HttpServletRequest request,
+                             HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
+        out.put("values", new JSONArray());
+    }
+
 }

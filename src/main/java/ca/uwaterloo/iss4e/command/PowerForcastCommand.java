@@ -36,10 +36,14 @@ public class PowerForcastCommand implements Command{
     public void byHoltWinters(ServletContext ctx, HttpServletRequest request,
                               HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
         int forcastLevel = Integer.parseInt(request.getParameter("level"));
-        int meterid = Integer.parseInt(request.getParameter("value"));
-        int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
-        int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
-        dao.getForcast(meterid, forcastLevel, forcastTime, timeUnit, out);
+        if (forcastLevel!=-1) {
+            int meterid = Integer.parseInt(request.getParameter("value"));
+            int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
+            int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
+            dao.getForcastByHoltWinters(meterid, forcastLevel, forcastTime, timeUnit, out);
+        }else {
+            throw new SMASException("Please select forcasting type!");
+        }
     }
 
 
@@ -72,20 +76,26 @@ public class PowerForcastCommand implements Command{
     public void byARIMA(ServletContext ctx, HttpServletRequest request,
                         HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
 
-        int timeType = Integer.parseInt(request.getParameter("timeType"));
-        int meterid = Integer.parseInt(request.getParameter("value"));
-        Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
-        Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
-        dao.getConsumptionByMeterID(meterid, timeType, startDate, endDate, out);
+        int forcastLevel = Integer.parseInt(request.getParameter("level"));
+        if (forcastLevel!=-1) {
+            int meterid = Integer.parseInt(request.getParameter("value"));
+            int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
+            int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
+            dao.getForcastByARIMA(meterid, forcastLevel, forcastTime, timeUnit, out);
+        }else {
+            throw new SMASException("Please select forcasting type!");
+        }
     }
 
     public void byNeuralNetwork(ServletContext ctx, HttpServletRequest request,
                                 HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
-         int timeType = Integer.parseInt(request.getParameter("timeType"));
+        System.out.println("Forcast by NeuralNetwork");
+        int forcastLevel = Integer.parseInt(request.getParameter("level"));
         int meterid = Integer.parseInt(request.getParameter("value"));
-        Date startDate = Utils.toSqlDate(request.getParameter("startDate"));
-        Date endDate = Utils.toSqlDate(request.getParameter("endDate"));
-        dao.getConsumptionByMeterID(meterid, timeType, startDate, endDate, out);
+        int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
+        int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
+
+        //dao.getConsumptionByMeterID(meterid, timeType, startDate, endDate, out);
     }
 
 

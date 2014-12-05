@@ -63,6 +63,9 @@ public class Utils {
         return counter;
     }
 
+    public static String mapNull2Empty(String str){
+        return isEmpty(str)?"":str;
+    }
 
     public static boolean isEmpty(String str) {
         return str == null || (str.trim()).isEmpty();
@@ -247,19 +250,27 @@ public class Utils {
 
     ;
 
-    public static java.sql.Date toSqlDate(String dateStr) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateFormat.setLenient(false);
-        Date date = dateFormat.parse(dateStr);
-        return new java.sql.Date(date.getTime());
+    public static java.sql.Date toSqlDate(String dateStr) throws SMASException {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            dateFormat.setLenient(false);
+            Date date = dateFormat.parse(dateStr);
+            return new java.sql.Date(date.getTime());
+        } catch (Exception e) {
+            throw new SMASException("Failed to parse the date");
+        }
     }
 
 
-    public static java.sql.Date toSqlDate(String dateStr, String format) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat(format);
-        dateFormat.setLenient(false);
-        Date date = dateFormat.parse(dateStr);
-        return new java.sql.Date(date.getTime());
+    public static java.sql.Date toSqlDate(String dateStr, String format) throws SMASException {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(format);
+            dateFormat.setLenient(false);
+            Date date = dateFormat.parse(dateStr);
+            return new java.sql.Date(date.getTime());
+        } catch (Exception e) {
+            throw new SMASException("Failed to parse the date");
+        }
     }
 
     public static Timestamp toTimestamp(String str) throws SMASException {
@@ -268,12 +279,12 @@ public class Utils {
             Date parsedDate = dateFormat.parse(str);
             return new java.sql.Timestamp(parsedDate.getTime());
         } catch (Exception e) {
-            throw new SMASException(e);
+            throw new SMASException("Failed to parse the date");
         }
     }
 
 
-    public static java.sql.Date toSqlDate(long val) throws ParseException {
+    public static java.sql.Date toSqlDate(long val) throws SMASException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = df.format(new Date(val));
         return toSqlDate(dateStr, "yyyy-MM-dd");
@@ -290,7 +301,7 @@ public class Utils {
             Date parsedDate = dateFormat.parse(theDate + " " + hour + ":00");
             return new java.sql.Timestamp(parsedDate.getTime());
         } catch (Exception e) {
-            throw new SMASException(e);
+            throw new SMASException("Failed to parse the date");
         }
     }
 
@@ -376,6 +387,25 @@ public class Utils {
         }
     }
 
+    public static final String[] splitToArray(String stringToSplit, String delimitter, boolean trim) {
+        if (stringToSplit == null) {
+            return new String[] {};
+        }
+        if (delimitter == null) {
+            throw new IllegalArgumentException();
+        }
+        StringTokenizer tokenizer = new StringTokenizer(stringToSplit, delimitter, false);
+        int count = tokenizer.countTokens();
+        String[] splitTokens = new String[count];
+        for (int i = 0; i < count; ++i) {
+            String token = tokenizer.nextToken();
+            if (trim) {
+                token = token.trim();
+            }
+            splitTokens[i] = token;
+        }
+        return splitTokens;
+    }
 
     public static void main(String[] args) {
 
