@@ -1,4 +1,0 @@
----- slide 1 ----
-Today smart meters such as electricity, water, gas meter were increasely used in world wide. Smart meter generate high resolution data, such as every 15 minutes. The generated data make the analytics possible. Smart meter data analytic energy providers, and consumpers to understand, and reduce energy usage in better. For example, utilities can use time-of-the use pricing strategy to balance the energy supply and demand, and give the suggestions to consumers to save energy. Howerver, smart meter are new, and many untilities have no knowledge about smart meter data analtycis, for example. What technologies to be used, what are the best practices? In addition, du to the privacy issu, it is hard to get consumption time series data. Therefore, there is a need for the smart meter data generator.
----- slide 2 --
-
