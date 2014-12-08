@@ -25,10 +25,15 @@ public interface AccountDAO {
 
     void create(Account account, JSONObject out) throws SMASException;
 
+
+
     void delete(String[] userIDs, JSONObject out) throws SMASException;
 
 
     void update(Account account, JSONObject out) throws SMASException;
 
     int count(int userID, JSONObject out) throws SMASException;
+
+    void readAccountForEdit(int userID, JSONObject out) throws SMASException;
+
 }

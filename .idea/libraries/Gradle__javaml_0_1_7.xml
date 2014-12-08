@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: javaml-0.1.7">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javaml-0.1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/javaml-0.1.7-src.zip!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaml-0.1.7-src.zip!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaml-0.1.7-src.zip!/" />
+    </SOURCES>
+  </library>
+</component>

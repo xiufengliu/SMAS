@@ -9,7 +9,7 @@
 <div class="well">
     <div class="row">
         <div id="errmsg-content" class="col-md-6"></div>
-        <div class="col-md-1 col-sm-offset-11"><button type="button" class="btn btn-primary btn-lg">Edit</button>  <button type="button" class="btn btn-danger btn-lg" onclick="accountMgnt.deleteAccounts();">Delete</button></div>
+        <div class="col-md-1 col-sm-offset-11"><button type="button" class="btn btn-primary btn-lg" onclick="accountMgnt.editAccount();">Edit</button>  <button type="button" class="btn btn-danger btn-lg" onclick="accountMgnt.deleteAccounts();">Delete</button></div>
     </div>
     <div class="row">
         <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="accounts">
@@ -57,29 +57,33 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">User name</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control"  name="username" value="afancy" disabled>
+                            <input type="text" class="form-control"  id="username" value="" readonly>
                         </div>
-                        <label class="col-sm-2 control-label">Role</label>
+                        <label class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-4">
-                            <select id="role" class="form-control">
-                                <option value="-1" selected>-Select value-</option>
-                            </select>
+                            <input type="password" class="form-control" id="password" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">First name</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" placeholder="First name"  name="firstname" value="Xiufeng">
+                            <input type="text" class="form-control" placeholder="First name"  id="firstname" value="">
                         </div>
                         <label class="col-sm-2 control-label">Last name</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" placeholder="Last name"  name="lastname" value="Liu">
+                            <input type="text" class="form-control" placeholder="Last name"  id="lastname" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control email" placeholder="Email" name="email" value="groupme@gmail.com">
+                            <input type="text" class="form-control email" placeholder="Email" id="email" value="">
+                        </div>
+                        <label class="col-sm-2 control-label">Role</label>
+                        <div class="col-sm-4">
+                            <select id="roles" class="form-control">
+                                <option value="-1" selected>-Select value-</option>
+                            </select>
                         </div>
                     </div>
                 </fieldset>
@@ -88,13 +92,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Power Meters</label>
                         <div class="col-sm-4">
-                            <select id="powerMeterID" class="form-control">
+                            <select id="powerMeterIDs" class="form-control">
                                 <option value="-1" selected>-Select value-</option>
                             </select>
                         </div>
                         <label class="col-sm-2 control-label">Water Meters</label>
                         <div class="col-sm-4">
-                            <select id="waterMeterID" class="form-control">
+                            <select id="waterMeterIDs" class="form-control">
                                 <option value="-1" selected>-Select value-</option>
                             </select>
                         </div>
@@ -102,7 +106,8 @@
                 </fieldset>
                 <div class="form-group">
                     <div class="col-sm-2 col-sm-offset-4">
-                        <button type="button" class="btn btn-primary btn-lg">Save</button>
+                        <input type="hidden"  id="userid" value="">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="accountMgnt.saveAccount();">Save</button>
                     </div>
                 </div>
             </div>

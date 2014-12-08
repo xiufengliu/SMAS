@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: stream-2.5.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.clearspring.analytics/stream/2.5.1/a9c8f577b9cd1548fa12d49ae14be4a162a3f2/stream-2.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.clearspring.analytics/stream/2.5.1/7f28b2b6445f3b46b49fc0b23665cd778aeab0b5/stream-2.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

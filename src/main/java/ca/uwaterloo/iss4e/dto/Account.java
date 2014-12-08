@@ -112,6 +112,10 @@ public class Account {
         this.lastName = lastName;
     }
 
+    public String getFullname(){
+        return this.firstName + " " + this.lastName;
+    }
+
     public String getEmail() {
         return email;
     }

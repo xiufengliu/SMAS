@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: parquet-encoding-1.4.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.twitter/parquet-encoding/1.4.3/2eaf01c88fd117362080285016d1b51cfd59fc04/parquet-encoding-1.4.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.twitter/parquet-encoding/1.4.3/21f76d920b3911b00c7f8ac4c9d83a63488d79e6/parquet-encoding-1.4.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

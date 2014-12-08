@@ -112,4 +112,36 @@ public class AccountManagementCommand implements Command {
             throw new SMASException("Please select the accounts to be deleted!");
         }
     }
+
+    public void edit(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException, SMASException {
+        String userIDStr = request.getParameter("userIDs");
+        String[] userIDArray = Utils.splitToArray(userIDStr, ",", true);
+        if (userIDArray.length ==0) {
+            throw new SMASException("Please select the account to be edited!");
+        } else if (userIDArray.length>1){
+            throw new SMASException("Only one account can be edited at a time!");
+        }  else {
+            dao.readAccountForEdit(Integer.parseInt(userIDArray[0]), out);
+        }
+    }
+
+    public void save(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException, SMASException {
+        String userIDStr = request.getParameter("userIDs");
+        if (Utils.isNumeric(userIDStr)) {
+            Account account = new Account();
+            account.setUserID(Integer.parseInt(userIDStr));
+            account.setUsername(request.getParameter("username"));
+            account.setPassword(request.getParameter("password"));
+            account.setFirstName(request.getParameter("firstname"));
+            account.setLastName(request.getParameter("lastname"));
+            account.setEmail(request.getParameter("email"));
+            account.setRoleID(Integer.parseInt(request.getParameter("roleid")));
+            account.setRoleName(request.getParameter("rolename"));
+            account.setPowerMeterIDs(new int[]{Integer.parseInt(request.getParameter("powerMeterID"))});
+            account.setWaterMeterIDs(new int[]{Integer.parseInt(request.getParameter("waterMeterID"))});
+            dao.update(account, out);
+        } else {
+            throw new SMASException("Please select the account to be edited!");
+        }
+    }
 }

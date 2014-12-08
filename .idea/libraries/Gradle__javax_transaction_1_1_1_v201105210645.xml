@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: javax.transaction-1.1.1.v201105210645">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.orbit/javax.transaction/1.1.1.v201105210645/68e61aa115bbff4e1e2ae4b16feb27d9f805eb6/javax.transaction-1.1.1.v201105210645.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.orbit/javax.transaction/1.1.1.v201105210645/2e00625b8dd34693188882f421b736efece2b8e/javax.transaction-1.1.1.v201105210645-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: parquet-format-2.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.twitter/parquet-format/2.0.0/7b0d90082bd2aff46e40e34182342c286dcef525/parquet-format-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.twitter/parquet-format/2.0.0/d608449d0bb26394b4081096ed30d4c20e9068da/parquet-format-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

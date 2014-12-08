@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: metrics-graphite-3.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.codahale.metrics/metrics-graphite/3.0.0/460aa766759492528cc6404bd6c1ca4eb8393722/metrics-graphite-3.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.codahale.metrics/metrics-graphite/3.0.0/c2037b27437a63b1146e21bb4bee123f019a70bd/metrics-graphite-3.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

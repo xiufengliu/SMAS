@@ -1190,7 +1190,16 @@ var accountMgnt = (function(){
             cmd: 'accountmgnt',
             subCmd:'',
             offset:0,
-            userIDs:''
+            userIDs:'',
+            username:'',
+            password:'',
+            firstname:'',
+            lastname:'',
+            email:'',
+            roleid:'',
+            rolename:'',
+            powerMeterID:-1,
+            waterMeterID:-1
     };
 
     accountTableFun = function(){
@@ -1240,6 +1249,99 @@ var accountMgnt = (function(){
         }
     };
 
+    editUserAccount = function(data){
+        var account = data['account'];
+        var roles = data['roles'];
+        var powerMeterIDs = data['powerMeterIDs'];
+        var waterMeterIDs = data['waterMeterIDs'];
+        //$('#username').prop('readonly', true);
+        $('#username').val(account['username']);
+        $('#password').val(account['password']);
+        $('#firstname').val(account['firstname']);
+        $('#lastname').val(account['lastname']);
+        $('#email').val(account['email']);
+        $('#userid').val(account['userid']);
+        $('#roles option').each(function() {
+             if ( $(this).val() != -1 ) {
+                  $(this).remove();
+              }
+        });
+        var roles = data['roles'];
+        if (roles!=null && roles.length>0){
+            $.each(roles, function(index, role) {
+                var optionStr = "<option value="+role['roleid'];
+                if (role['roleid']==account['roleid']){
+                    optionStr += " selected";
+                } else {
+                    optionStr += " ";
+                }
+                optionStr += ">"+role['name']+"</option>";
+                $('#roles').append(optionStr);
+            });
+        }
+
+        $('#powerMeterIDs option').each(function() {
+             if ( $(this).val() != -1 ) {
+                  $(this).remove();
+              }
+        });
+        var powerMeterIDs = data['powerMeterIDs'];
+        if (powerMeterIDs!=null && powerMeterIDs.length>0){
+            $.each(powerMeterIDs, function(index, powerMeterID) {
+                var optionStr = "<option value="+powerMeterID;
+                if (powerMeterID==account['powerMeterIDs'][0]){
+                    optionStr += " selected";
+                } else {
+                    optionStr += " ";
+                }
+                optionStr += ">"+powerMeterID+"</option>";
+                $('#powerMeterIDs').append(optionStr);
+            });
+        }
+
+        $('#waterMeterIDs option').each(function() {
+             if ( $(this).val() != -1 ) {
+                  $(this).remove();
+              }
+        });
+         var waterMeterIDs = data['waterMeterIDs'];
+         if (waterMeterIDs!=null && waterMeterIDs.length>0){
+            $.each(waterMeterIDs, function(index, waterMeterID) {
+                var optionStr = "<option value="+waterMeterID;
+                if (waterMeterID==account['waterMeterIDs'][0]){
+                    optionStr += " selected";
+                } else {
+                    optionStr += " ";
+                }
+                optionStr += ">"+waterMeterID+"</option>";
+                $('#waterMeterIDs').append(optionStr);
+            });
+        }
+    };
+
+    saveUserAccount = function(data){
+    var account = data['account'];
+    var newRowContent = "<tr id="+ account['userID'] +">" +
+                                    "<td>" +
+                                    "    <div class='checkbox-inline'>" +
+                                    "      <label>" +
+                                    "      <input type='checkbox' value="+ account['userID'] +">" +
+                                    "&nbsp;&nbsp;&nbsp;&nbsp;" + account['userID']  +
+                                    "         <i class='fa fa-square-o'></i>" +
+                                    "      </label>" +
+                                    "    </div>" +
+                                    "</td>" +
+                                    "<td>"+account['username']+"</td>" +
+                                    "<td>"+account['fullname']+"</td>" +
+                                    "<td>"+account['email']+"</td>" +
+                                    "<td>"+account['rolename']+"</td>" +
+                                    "<td>"+account['powerMeterIDs']+"</td>" +
+                                    "<td>"+account['waterMeterIDs']+"</td>" +
+                                    "</tr>";
+        $('tr#'+ account['userID']).replaceWith(newRowContent);
+    };
+
+
     return {
         listAccounts: function(offset){
             sent['subCmd'] = 'read';
@@ -1252,6 +1354,27 @@ var accountMgnt = (function(){
                                             return $( this ).val();
                                          }).get().join( ", " );
             controller(sent, removeAccounts);
+        },
+        editAccount:function(){
+            sent['subCmd'] = 'edit';
+            sent['userIDs'] =  $(':checkbox:checked').map(function() {
+                                            return $( this ).val();
+                                         }).get().join( ", " );
+            controller(sent, editUserAccount);
+        },
+        saveAccount:function(){
+            sent['subCmd'] = 'save';
+            sent['userIDs'] = $('#userid').val();
+            sent['username'] = $('#username').val();
+            sent['password'] = $('#password').val();
+            sent['firstname'] = $('#firstname').val();
+            sent['lastname'] = $('#lastname').val();
+            sent['email'] = $('#email').val();
+            sent['roleid'] = $('#roles option:selected').val();
+            sent['rolename'] = $('#roles option:selected').text();
+            sent['powerMeterID'] = $('#powerMeterIDs').val();
+            sent['waterMeterID'] = $('#waterMeterIDs').val();
+            controller(sent, saveUserAccount);
         }
     }
 })();

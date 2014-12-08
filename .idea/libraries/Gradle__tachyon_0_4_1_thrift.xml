@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: tachyon-0.4.1-thrift">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tachyonproject/tachyon/0.4.1-thrift/a636dbc73cb69ed2374b67589c4308e652ccf46c/tachyon-0.4.1-thrift.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tachyonproject/tachyon/0.4.1-thrift/60a6852188b193aeb373f1ea8e40b6f20e4e6aa6/tachyon-0.4.1-thrift-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

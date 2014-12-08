@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 /**
  * Copyright (c) 2014 Xiufeng Liu ( xiufeng.liu@uwaterloo.ca )
  * <p/>
@@ -63,8 +64,8 @@ public class Utils {
         return counter;
     }
 
-    public static String mapNull2Empty(String str){
-        return isEmpty(str)?"":str;
+    public static String mapNull2Empty(String str) {
+        return isEmpty(str) ? "" : str;
     }
 
     public static boolean isEmpty(String str) {
@@ -389,7 +390,7 @@ public class Utils {
 
     public static final String[] splitToArray(String stringToSplit, String delimitter, boolean trim) {
         if (stringToSplit == null) {
-            return new String[] {};
+            return new String[]{};
         }
         if (delimitter == null) {
             throw new IllegalArgumentException();
@@ -405,6 +406,19 @@ public class Utils {
             splitTokens[i] = token;
         }
         return splitTokens;
+    }
+
+    public static boolean isNumeric(final String cs) {
+        if (isEmpty(cs)) {
+            return false;
+        }
+        final int sz = cs.length();
+        for (int i = 0; i < sz; i++) {
+            if (Character.isDigit(cs.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {

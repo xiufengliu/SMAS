@@ -150,11 +150,136 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public void update(Account account, JSONObject out) throws SMASException {
+        Connection dbConn = null;
+        try {
+            dbConn = DAOUtils.getDBConnection();
+            PreparedStatement pstmt = dbConn.prepareStatement("UPDATE smas_user SET password=?, firstname=?, lastname=?, email=?, roleid=?, powermeters=?, watermeters=? WHERE userid=?");
+            int idx = 0;
+            pstmt.setString(++idx, account.getPassword());
+            pstmt.setString(++idx, account.getFirstName());
+            pstmt.setString(++idx, account.getLastName());
+            pstmt.setString(++idx, account.getEmail());
+            pstmt.setInt(++idx, account.getRoleID());
 
+            Array powerIDArray = dbConn.createArrayOf("integer", Utils.toObjectArray(account.getPowerMeterIDs()));
+            pstmt.setArray(++idx, powerIDArray);
+
+            Array waterIDArray = dbConn.createArrayOf("integer", Utils.toObjectArray(account.getWaterMeterIDs()));
+            pstmt.setArray(++idx, waterIDArray);
+            pstmt.setInt(++idx, account.getUserID());
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            JSONObject acc = new JSONObject();
+            acc.put("userID", account.getUserID());
+            acc.put("username", account.getUsername());
+            acc.put("password", account.getPassword());
+            acc.put("fullname", account.getFullname());
+            acc.put("rolename", account.getRoleName());
+            acc.put("email", account.getEmail());
+            acc.put("powerMeterIDs", account.getPowerMeterIDs());
+            acc.put("waterMeterIDs", account.getWaterMeterIDs());
+            out.put("account", acc);
+        } catch (SQLException e) {
+            throw new SMASException(e);
+        } finally {
+            DAOUtils.freeConnection(dbConn);
+        }
     }
 
     @Override
     public int count(int userID, JSONObject out) throws SMASException {
         return 0;
+    }
+
+    @Override
+    public void readAccountForEdit(int userID, JSONObject out) throws SMASException {
+        Connection dbConn = null;
+        try {
+            dbConn = DAOUtils.getDBConnection();
+            PreparedStatement pstmt = dbConn
+                    .prepareStatement("SELECT " +
+                            "firstname," +
+                            "lastname," +
+                            "username, " +
+                            "password," +
+                            "roleid," +
+                            "email, " +
+                            "powermeters, " +
+                            "watermeters " +
+                            "FROM smas_user " +
+                            "WHERE userid=?");
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()){
+                JSONObject account = new JSONObject();
+                account.put("userid", userID);
+                account.put("username", rs.getString("username"));
+                account.put("password", rs.getString("password"));
+                account.put("firstname", Utils.mapNull2Empty(rs.getString("firstname")));
+                account.put("lastname", Utils.mapNull2Empty(rs.getString("lastname")));
+                account.put("roleid", Utils.mapNull2Empty(rs.getString("roleid")));
+                account.put("email", Utils.mapNull2Empty(rs.getString("email")));
+                Array pmeterArray = rs.getArray("powermeters");
+                if (pmeterArray != null) {
+                    Integer[] powerMeterIDs = (Integer[]) pmeterArray.getArray();
+                    int[] pMIDs = new int[powerMeterIDs.length];
+                    for (int i = 0; i < powerMeterIDs.length; ++i) {
+                        pMIDs[i] = powerMeterIDs[i].intValue();
+                    }
+                    account.put("powerMeterIDs", pMIDs);
+                } else {
+                    account.put("powerMeterIDs", new int[0]);
+                }
+                Array wmeterArray = rs.getArray("watermeters");
+                if (wmeterArray != null) {
+                    Integer[] waterMeterIDs = (Integer[]) (wmeterArray.getArray());
+                    int[] wMIDs = new int[waterMeterIDs.length];
+                    for (int i = 0; i < waterMeterIDs.length; ++i) {
+                        wMIDs[i] = waterMeterIDs[i].intValue();
+                    }
+                    account.put("waterMeterIDs", wMIDs);
+                } else {
+                    account.put("waterMeterIDs", new int[0]);
+                }
+                out.put("account", account);
+            }
+            pstmt.close();
+
+
+            pstmt = dbConn.prepareStatement("SELECT roleid, name FROM smas_role");
+            rs =  pstmt.executeQuery();
+            JSONArray roles = new JSONArray();
+            while (rs.next()){
+                JSONObject role = new JSONObject();
+                role.put("roleid", rs.getString("roleid"));
+                role.put("name", rs.getString("name"));
+                roles.put(role);
+            }
+            out.put("roles", roles);
+            pstmt.close();
+
+            pstmt = dbConn.prepareStatement("SELECT meterid FROM smas_power_meter");
+            rs =  pstmt.executeQuery();
+            JSONArray powerMeterIDs = new JSONArray();
+            while (rs.next()){
+                powerMeterIDs.put(rs.getInt("meterid"));
+            }
+            out.put("powerMeterIDs", powerMeterIDs);
+            pstmt.close();
+
+            pstmt = dbConn.prepareStatement("SELECT meterid FROM smas_water_meter");
+            rs =  pstmt.executeQuery();
+            JSONArray waterMeterIDs = new JSONArray();
+            while (rs.next()){
+                waterMeterIDs.put(rs.getInt("meterid"));
+            }
+            out.put("waterMeterIDs", waterMeterIDs);
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new SMASException(e);
+        } finally {
+            DAOUtils.freeConnection(dbConn);
+        }
     }
 }
