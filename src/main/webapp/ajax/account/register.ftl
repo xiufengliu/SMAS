@@ -61,8 +61,8 @@
                        </fieldset>
                         <div class="form-group">
                             <div class="col-sm-9 col-sm-offset-6">
-                                <input type="hidden" name="cmd" class="form-control" value="accountmgnt" />
-                                <input type="hidden" name="subCmd" class="form-control" value="create" />
+                                <input type="hidden" name="cmd" class="form-control" value="authorize" />
+                                <input type="hidden" name="subCmd" class="form-control" value="register" />
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>

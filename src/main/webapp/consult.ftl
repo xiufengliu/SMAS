@@ -64,7 +64,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="/smas/servlet?cmd=loginout&subCmd=logout">
+                                        <a href="/smas/servlet?cmd=authorize&subCmd=logout">
                                             <i class="fa fa-power-off"></i>
                                             <span class="hidden-sm text">Logout</span>
                                         </a>

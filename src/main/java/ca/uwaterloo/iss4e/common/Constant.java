@@ -27,7 +27,7 @@ public interface Constant {
 
     final static String METERIDS = "meterids";
     final static String AREA_TOWN="areatown";
-    final static String LOGIN = "loginout";
+    final static String AUTHORIZE = "authorize";
     final static String PARX = "parx";
     final static String METERLOC = "meterloc";
     final static String SEGMENTATION = "segmentation";
@@ -40,4 +40,8 @@ public interface Constant {
 
 
     final static String WATER_LOAD_ANALYSIS = "waterloadanalysis";
+
+    final static int ROLE_CUSTOMER = 1;
+    final static int ROLE_CONSULTANT = 2;
+    final static int ROLE_UTILITY = 3;
 }

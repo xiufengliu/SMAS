@@ -19,7 +19,7 @@
     <div id="page-login" class="row">
         <div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
             <div class="text-right">
-                <a href="/smas/servlet?cmd=accountmgnt&subCmd=getForm" class="txt-default">Need an account?</a>
+                <a href="/smas/servlet?cmd=authorize&subCmd=getRegistrationForm" class="txt-default">Need an account?</a>
             </div>
             <div class="box">
                 <div class="box-content">
@@ -36,7 +36,7 @@
                             <input type="password" class="form-control" name="password" />
                         </div>
                         <div class="text-center">
-                            <input type="hidden" name="cmd" class="form-control" value="loginout" />
+                            <input type="hidden" name="cmd" class="form-control" value="authorize" />
                             <input type="hidden" name="subCmd" class="form-control" value="login" />
                             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                         </div>

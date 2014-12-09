@@ -1,5 +1,6 @@
 package ca.uwaterloo.iss4e.command;
 
+import ca.uwaterloo.iss4e.common.Constant;
 import ca.uwaterloo.iss4e.common.SMASException;
 import ca.uwaterloo.iss4e.common.Utils;
 import ca.uwaterloo.iss4e.databases.AccountDAO;
@@ -38,65 +39,8 @@ import java.util.logging.Logger;
 
 public class AccountManagementCommand implements Command {
     private static final Logger log = Logger.getLogger(AccountManagementCommand.class.getName());
-    private String registerPage;
-    private String successPage;
 
     AccountDAO dao = new AccountDAOImpl();
-
-
-    public AccountManagementCommand(String[] pages) {
-        this.registerPage = pages[0];
-        this.successPage = pages[1];
-    }
-
-    public void getForm(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException {
-        request.setAttribute("account", new Account());
-        request.getRequestDispatcher(this.registerPage).forward(request, response);
-    }
-
-    public void create(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException {
-        Account account = new Account();
-        StringBuffer buf = new StringBuffer();
-        String username = request.getParameter("username");
-        boolean success = true;
-        buf.append("<div class='alert alert-danger' data-dismiss='alert'>");
-        if (Utils.isEmpty(username)) {
-            buf.append("<p>Username cannot be empty</p>");
-            success = false;
-        }
-        String password = request.getParameter("password");
-        String retypePassword = request.getParameter("retypepassword");
-        if (Utils.isEmpty(password) && Utils.isEmpty(retypePassword)) {
-            buf.append("<p>Password cannot be empty</p>");
-            success = false;
-        } else if (!password.equals(retypePassword)) {
-            buf.append("<p>The password does not match</p>");
-            success = false;
-        }
-        String firstName = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String email = request.getParameter("email");
-
-        account.setUsername(username);
-        account.setPassword(password);
-        account.setRetypePassword(retypePassword);
-        account.setFirstName(firstName);
-        account.setLastName(lastname);
-        account.setEmail(email);
-
-        try {
-            if (success) {
-                dao.create(account, out);
-            }
-        } catch (Exception e) {
-            buf.append(e.getMessage());
-            success = false;
-        }
-        buf.append("</div>");
-        account.setMessage(buf.toString());
-        request.setAttribute("account", account);
-        request.getRequestDispatcher(success ? this.successPage : this.registerPage).forward(request, response);
-    }
 
     public void read(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException, SMASException {
         int offset = Integer.parseInt(request.getParameter("offset"));
@@ -116,11 +60,11 @@ public class AccountManagementCommand implements Command {
     public void edit(ServletContext ctx, HttpServletRequest request, HttpServletResponse response, JSONObject out) throws ServletException, IOException, SMASException {
         String userIDStr = request.getParameter("userIDs");
         String[] userIDArray = Utils.splitToArray(userIDStr, ",", true);
-        if (userIDArray.length ==0) {
+        if (userIDArray.length == 0) {
             throw new SMASException("Please select the account to be edited!");
-        } else if (userIDArray.length>1){
+        } else if (userIDArray.length > 1) {
             throw new SMASException("Only one account can be edited at a time!");
-        }  else {
+        } else {
             dao.readAccountForEdit(Integer.parseInt(userIDArray[0]), out);
         }
     }

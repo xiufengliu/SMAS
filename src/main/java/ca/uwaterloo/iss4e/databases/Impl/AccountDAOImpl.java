@@ -103,13 +103,15 @@ public class AccountDAOImpl implements AccountDAO {
                             "lastname," +
                             "username," +
                             "password," +
+                            "roleid," +
                             "email" +
-                            ") VALUES (nextval('seq_smas_user_userid'), ?, ?, ?, ?, ?)");
+                            ") VALUES (nextval('seq_smas_user_userid'), ?, ?, ?, ?, ?, ?)");
             int idx = 0;
             pstmt.setString(++idx, account.getFirstName());
             pstmt.setString(++idx, account.getLastName());
             pstmt.setString(++idx, account.getUsername());
             pstmt.setString(++idx, account.getPassword());
+            pstmt.setInt(++idx, account.getRoleID());
             pstmt.setString(++idx, account.getEmail());
             pstmt.execute();
             pstmt.close();

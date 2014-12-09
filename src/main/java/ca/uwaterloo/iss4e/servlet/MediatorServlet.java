@@ -19,6 +19,7 @@ import ca.uwaterloo.iss4e.common.SMASException;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import org.json.JSONObject;
+
 /**
  * Copyright (c) 2014 Xiufeng Liu ( xiufeng.liu@uwaterloo.ca )
  * <p/>
@@ -50,8 +51,14 @@ public class MediatorServlet extends HttpServlet {
         Cache cache = singletonManager.getCache(Constant.CACHE);
         ctx.setAttribute(Constant.CACHE, cache);
 
-        commands.put(Constant.LOGIN, new AuthorizationCommand(new String[]{"/index.ftl", "/utility.ftl",  "/consult.ftl", "/customer.ftl"}));
-        commands.put(Constant.ACCOUNT_MGNT, new AccountManagementCommand(new String[]{"/ajax/account/register.ftl", "/ajax/account/registersucc.ftl"}));
+        commands.put(Constant.AUTHORIZE, new AuthorizationCommand(new String[]{
+                                                                            "/index.ftl",
+                                                                            "/utility.ftl",
+                                                                            "/consult.ftl",
+                                                                            "/customer.ftl",
+                                                                            "/ajax/account/register.ftl",
+                                                                            "/ajax/account/registersucc.ftl"}));
+        commands.put(Constant.ACCOUNT_MGNT, new AccountManagementCommand());
 
         commands.put(Constant.USER, new UserCommand());
         commands.put(Constant.CUSTOMER_MGNT, new PowerCustomerManagementCommand());
@@ -76,24 +83,22 @@ public class MediatorServlet extends HttpServlet {
         log.log(Level.INFO, "cmd=" + cmd + "; subCmd=" + subCmd);
         JSONObject out = new JSONObject();
         try {
-            if (cmd == null || subCmd == null) {
+            Object cmdObj = null;
+            if (cmd == null || subCmd == null || ((cmdObj = commands.get(cmd)) == null)) {
                 request.getRequestDispatcher("/index.ftl").forward(request, response);
                 return;
             }
-
-            if (!cmd.equals(Constant.LOGIN) &&
-                !cmd.equals(Constant.ACCOUNT_MGNT) &&
-                 request.getSession().getAttribute("userinfo")==null){
-                throw new SMASException("Session is timed out! Please log in again!");
+            if (cmd.equals(Constant.AUTHORIZE)) {
+                CommandExecutor subCmdObj = new CommandExecutor(cmdObj, subCmd, new Object[]{this.ctx, request, response, out});
+                subCmdObj.execute();
+            } else {
+                if (request.getSession().getAttribute("userinfo") == null) {
+                    throw new SMASException("Session is timed out! Please log in again!");
+                } else {
+                    CommandExecutor subCmdObj = new CommandExecutor(cmdObj, subCmd, new Object[]{this.ctx, request, response, out});
+                    subCmdObj.execute();
+                }
             }
-
-            Object cmdObj = commands.get(cmd);
-            if (cmdObj == null) {
-                request.getRequestDispatcher("/index.ftl").forward(request, response);
-                return;
-            }
-            CommandExecutor subCmdObj = new CommandExecutor(cmdObj, subCmd, new Object[]{this.ctx, request, response, out});
-            subCmdObj.execute();
         } catch (Throwable e) {
             e.printStackTrace();
             out.put("errmsg", String.valueOf(e.getMessage()));
