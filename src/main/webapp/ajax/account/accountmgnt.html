@@ -8,8 +8,10 @@
 
 <div class="well">
     <div class="row">
-        <div id="errmsg-content" class="col-md-6"></div>
-        <div class="col-md-1 col-sm-offset-11"><button type="button" class="btn btn-primary btn-lg" onclick="accountMgnt.editAccount();">Edit</button>  <button type="button" class="btn btn-danger btn-lg" onclick="accountMgnt.deleteAccounts();">Delete</button></div>
+        <div id="errmsg-content" class="col-md-10"></div>
+        <div class="col-md-2">
+            <div class="text-left"><button type="button" class="btn btn-primary btn-lg" onclick="accountMgnt.editAccount();">Edit</button>  <button type="button" class="btn btn-danger btn-lg" onclick="accountMgnt.deleteAccounts();">Delete</button></div>
+        </div>
     </div>
     <div class="row">
         <table class="table table-bordered table-striped table-hover table-heading table-datatable" id="accounts">
@@ -96,6 +98,7 @@
                                 <option value="-1" selected>-Select value-</option>
                             </select>
                         </div>
+
                         <label class="col-sm-2 control-label">Water Meters</label>
                         <div class="col-sm-4">
                             <select id="waterMeterIDs" class="form-control">

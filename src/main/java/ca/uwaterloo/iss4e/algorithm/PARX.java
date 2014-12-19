@@ -86,7 +86,7 @@ public class PARX {
     * Auto-regression variables, and the exogenous variable, temperature.
     * */
     public static Pair prepareAllVariables(final List<Double>  readings, final List<Double> temperatures,  int currentIndex, int trainingSize, int order, int seasons) throws SMASException {
-        int numberOfElem = Math.min(trainingSize, currentIndex+1);
+        int numberOfElem = Math.min(currentIndex+1, trainingSize);
         int size = numberOfElem/seasons;
         if (size<order+1) {
             throw new SMASException("The number of backward elements should be at least " + (order+1)*seasons);
@@ -127,6 +127,33 @@ public class PARX {
         Pair pair = PARX.prepareAllVariables(readings, temperatures, readings.size()-1, readings.size(), order, seasons);
         double[] Y = (double[]) pair.getKey();
         double[][] X = (double[][]) pair.getValue();
+
+        StringBuffer buf = new StringBuffer();
+        buf.append("Y={");
+        for (int i=0; i<Y.length; ++i){
+            buf.append(Y[i]);
+            if (i<Y.length-1){
+                buf.append(",");
+            }
+        }
+        buf.append("}");
+        System.out.println(buf.toString());
+
+        buf.setLength(0);
+        buf.append("X={\n");
+        for (int r=0; r<X.length; ++r){
+            buf.append("{");
+            for (int c=0; c<X[r].length; ++c) {
+                buf.append(X[r][c]);
+                if (c<X[r].length-1){
+                    buf.append(",");
+                }
+            }
+            buf.append("},\n");
+        }
+        buf.append("}");
+        System.out.println(buf.toString());
+
 
         OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
         regression.setNoIntercept(true);

@@ -270,12 +270,13 @@ public class AccountDAOImpl implements AccountDAO {
             out.put("powerMeterIDs", powerMeterIDs);
             pstmt.close();
 
-            pstmt = dbConn.prepareStatement("SELECT meterid FROM smas_water_meter");
-            rs =  pstmt.executeQuery();
             JSONArray waterMeterIDs = new JSONArray();
+
+           /* pstmt = dbConn.prepareStatement("SELECT meterid FROM smas_water_meter");
+            rs =  pstmt.executeQuery();
             while (rs.next()){
                 waterMeterIDs.put(rs.getInt("meterid"));
-            }
+            }*/
             out.put("waterMeterIDs", waterMeterIDs);
             pstmt.close();
         } catch (SQLException e) {

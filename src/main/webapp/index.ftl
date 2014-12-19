@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.7">
     <title>Smart Meter Data Analytics System</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="plugins/bootstrap/bootstrap.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+<!--
     <script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
     <script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
+    -->
+
     <script src="plugins/jquery/jquery-2.1.0.min.js"></script>
     <script src="js/common.js"></script>
 </head>

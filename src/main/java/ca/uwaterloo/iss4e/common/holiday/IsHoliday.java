@@ -129,20 +129,23 @@ public final class IsHoliday
         ResultSet rs = null;
 
 
-        String url = "jdbc:postgresql://localhost/essex";
+        String url = "jdbc:postgresql://localhost/irish";
         String user = "xiliu";
         String password = "Abcd1234";
 
         try {
-            IsHoliday h = new IsHoliday( 1990, 2014 );
-            h.addWeekendsAsHolidays();
+            IsHoliday h = new IsHoliday( 2008, 2012 );
+            //h.addWeekendsAsHolidays();
             h.addCanadianFederalHolidays(HolInfo.SHIFTED);
+
 
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(url, user, password);
             st = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement("UPDATE smas_water_dailyreadingbytype set holidayflag=? WHERE readdate=?");
-            rs = st.executeQuery("select distinct readdate from smas_water_dailyreadingbytype order by readdate");
+           // PreparedStatement pstmt = con.prepareStatement("UPDATE smas_water_dailyreadingbytype set holidayflag=? WHERE readdate=?");
+            //rs = st.executeQuery("select distinct readdate from smas_water_dailyreadingbytype order by readdate");
+            rs = st.executeQuery("select date from smas_date order by 1 asc");
+            PreparedStatement pstmt = con.prepareStatement("UPDATE smas_date set canadianholiday=? WHERE date=?");
 
             while (rs.next()) {
                String dateStr = rs.getString(1);
@@ -196,7 +199,7 @@ public final class IsHoliday
         {
             // prepare list of holidays
             IsHoliday h = new IsHoliday( 1990, 2014 );
-            h.addWeekendsAsHolidays();
+            //h.addWeekendsAsHolidays();
             h.addCanadianFederalHolidays(HolInfo.SHIFTED);
             // add nearest weekday to the actual holiday, shift=true
             /*h.addAmericanFederalHolidays( HolInfo.SHIFTED );

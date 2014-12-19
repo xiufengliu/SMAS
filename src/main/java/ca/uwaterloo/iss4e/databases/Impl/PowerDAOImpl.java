@@ -52,7 +52,7 @@ public class PowerDAOImpl implements PowerDAO{
         try {
             dbConn = DAOUtils.getDBConnection();
             PreparedStatement pstmt = dbConn
-                    .prepareStatement("SELECT distinct meterid FROM smas_power_hourlyreading order by 1");
+                    .prepareStatement("SELECT meterid FROM smas_power_meter order by 1");
             ResultSet rs = pstmt.executeQuery();
 
             JSONArray values = new JSONArray();
@@ -510,53 +510,43 @@ public class PowerDAOImpl implements PowerDAO{
         try {
             dbConn = DAOUtils.getDBConnection();
             int seasons = 24;
-            PreparedStatement pstmt = dbConn.prepareStatement("select readtime::date, extract(hour from readtime), reading, temperature from smas_power_hourlyreading where meterid=? and readtime::date between ? and ? order by 1 asc, 2 asc");
+            PreparedStatement pstmt = dbConn.prepareStatement(
+                            "SELECT " +
+                                    "B.isWeekday, " +
+                                    "extract(hour from readtime) as hour, " +
+                                    "AVG(GREATEST(A.reading-(B.coef[4]*(CASE WHEN A.temperature>20 THEN A.temperature-20 ELSE 0 END) " +
+                                    "+B.coef[5]*(CASE WHEN A.temperature<16 AND A.temperature>=5 THEN 16-A.temperature ELSE 0 END) " +
+                                    "+B.coef[6]*(CASE WHEN A.temperature<5 THEN 5-A.temperature ELSE 0 END) " +
+                                    "), 0.0)) AS avgActivity " +
+                                    "from smas_power_hourlyreading A, smas_power_parx_model B " +
+                                    "where A.meterid=? AND " +
+                                    "B.meterid=? AND " +
+                                    "A.readtime::date between ? and ? AND " +
+                                    "extract(hour from A.readtime) = B.season " +
+                                    "GROUP BY A.meterid, B.isWeekday, extract(hour from A.readtime) " +
+                                    "ORDER BY 1,2"
+
+            );
+
             pstmt.setInt(1, meterid);
-            pstmt.setDate(2, startDate);
-            pstmt.setDate(3, endDate);
+            pstmt.setInt(2, meterid);
+            pstmt.setDate(3, startDate);
+            pstmt.setDate(4, endDate);
             ResultSet rs = pstmt.executeQuery();
 
-            List<Double> readings = new ArrayList<Double>();
-            List<Double> temperatures = new ArrayList<Double>();
-            List<String> dates = new ArrayList<String>();
-            List<Integer> hours = new ArrayList<Integer>();
-
-            while (rs.next()) {
-                dates.add(rs.getString(1));
-                hours.add(rs.getInt(2));
-                readings.add(rs.getDouble(3));
-                temperatures.add(rs.getDouble(4));
-            }
-
-            double[] loadByTemp = PARX.getLoadByTemperature(readings, temperatures, order);
-            int chopSize = readings.size() - loadByTemp.length;
-            double[] hourlySumOnWeekday = new double[24];
-            double[] hourlySumOnHoliday = new double[24];
-            int[] hourCountOnWeekday = new int[24];
-            int[] hourCountOnHoliday = new int[24];
-
-            IsHoliday isHoliday = new IsHoliday(2009, 2017);
-            isHoliday.addWeekendsAsHolidays();
-            isHoliday.addCanadianFederalHolidays(HolInfo.SHIFTED);
-
-            for (int i = 0; i < loadByTemp.length; ++i) {
-                double activityLoad = readings.get(chopSize + i) - loadByTemp[i];
-                String dateStr = dates.get(chopSize + i);
-                int h = hours.get(chopSize + i);
-                if (isHoliday.isHoliday(BigDate.toOrdinal(dateStr))) {
-                    hourlySumOnHoliday[h] += activityLoad;
-                    ++hourCountOnHoliday[h];
-                } else {
-                    hourlySumOnWeekday[h] += activityLoad;
-                    ++hourCountOnWeekday[h];
-                }
-            }
 
             double[] hourlyAvgOnWeekday = new double[24];
             double[] hourlyAvgOnHoliday = new double[24];
-            for (int h = 0; h < 24; ++h) {
-                hourlyAvgOnWeekday[h] = Math.floor(100 * hourlySumOnWeekday[h] / hourCountOnWeekday[h] + 0.5) / 100;
-                hourlyAvgOnHoliday[h] = Math.floor(100 * hourlySumOnHoliday[h] / hourCountOnHoliday[h] + 0.5) / 100;
+            while (rs.next()) {
+                int isWeekday = rs.getInt("isWeekday");
+                int h = rs.getInt("hour");
+                double avgActivity = rs.getDouble("avgActivity");
+               // double roundAvgActivity = Math.floor(100 * avgActivity / avgActivity + 0.5) / 100;
+                if (isWeekday==1){
+                    hourlyAvgOnWeekday[h] = avgActivity;
+                } else {
+                    hourlyAvgOnHoliday[h] = avgActivity;
+                }
             }
 
 
@@ -573,11 +563,11 @@ public class PowerDAOImpl implements PowerDAO{
             series.put(holidayActivityLoadJSon);
             out.put("series", series);
 
-            JSONObject startEndDate = new JSONObject();
+           /* JSONObject startEndDate = new JSONObject();
             startEndDate.put("startdate", dates.get(chopSize));
             startEndDate.put("enddate", dates.get(dates.size() - 1));
 
-            out.put("startenddate", startEndDate);
+            out.put("startenddate", startEndDate);*/
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SMASException(e);

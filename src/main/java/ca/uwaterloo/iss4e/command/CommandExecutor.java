@@ -55,8 +55,8 @@ public class CommandExecutor {
         try {
             return action.invoke(receiver, args);
         } catch (InvocationTargetException e) {
-            throw e.getCause();
-          //  throw new SMASException(e);
+           // throw e.getCause();
+           throw new SMASException("Oops! Cannot find the execution command!");
         } catch (IllegalAccessException e) {
             throw e.getCause();
         }

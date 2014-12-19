@@ -29,30 +29,34 @@ import java.util.logging.Logger;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.
  */
-public class PowerForcastCommand implements Command{
+public class PowerForcastCommand implements Command {
     private static final Logger log = Logger.getLogger(PowerLoadAnalysisCommand.class.getName());
     PowerDAO dao = new PowerDAOImpl();
 
     public void byHoltWinters(ServletContext ctx, HttpServletRequest request,
-                              HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
+                              HttpServletResponse response, JSONObject out) throws SMASException {
+
         int forcastLevel = Integer.parseInt(request.getParameter("level"));
-        if (forcastLevel!=-1) {
-            int meterid = Integer.parseInt(request.getParameter("value"));
-            int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
-            int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
-            dao.getForcastByHoltWinters(meterid, forcastLevel, forcastTime, timeUnit, out);
-        }else {
+        if (forcastLevel != -1) {
+            try {
+                int meterid = Integer.parseInt(request.getParameter("value"));
+                int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
+                int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
+                dao.getForcastByHoltWinters(meterid, forcastLevel, forcastTime, timeUnit, out);
+            } catch (Exception e) {
+                throw new SMASException("The forecast conditions are incomplete!");
+            }
+        } else {
             throw new SMASException("Please select forcasting type!");
         }
     }
 
 
     public void byPARX(ServletContext ctx, HttpServletRequest request,
-                       HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
+                       HttpServletResponse response, JSONObject out) throws SMASException {
         int compareTarget = Integer.parseInt(request.getParameter("compareTarget"));
         System.out.println("compareTarget=" + compareTarget);
         if (compareTarget != -1) {
-
             int timeType = Integer.parseInt(request.getParameter("timeType"));
             String selectedIDsStr = request.getParameter("selectedIDs");
             if (compareTarget == 1) {
@@ -74,21 +78,24 @@ public class PowerForcastCommand implements Command{
     }
 
     public void byARIMA(ServletContext ctx, HttpServletRequest request,
-                        HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
-
+                        HttpServletResponse response, JSONObject out) throws SMASException {
         int forcastLevel = Integer.parseInt(request.getParameter("level"));
-        if (forcastLevel!=-1) {
-            int meterid = Integer.parseInt(request.getParameter("value"));
-            int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
-            int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
-            dao.getForcastByARIMA(meterid, forcastLevel, forcastTime, timeUnit, out);
-        }else {
+        if (forcastLevel != -1) {
+            try {
+                int meterid = Integer.parseInt(request.getParameter("value"));
+                int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));
+                int timeUnit = Integer.parseInt(request.getParameter("forcasttimeunit"));
+                dao.getForcastByARIMA(meterid, forcastLevel, forcastTime, timeUnit, out);
+            } catch (Exception e) {
+                throw new SMASException("The forecast conditions are incomplete!");
+            }
+        } else {
             throw new SMASException("Please select forcasting type!");
         }
     }
 
     public void byNeuralNetwork(ServletContext ctx, HttpServletRequest request,
-                                HttpServletResponse response, JSONObject out) throws SMASException, ParseException {
+                                HttpServletResponse response, JSONObject out) throws SMASException {
         System.out.println("Forcast by NeuralNetwork");
         int forcastLevel = Integer.parseInt(request.getParameter("level"));
         int meterid = Integer.parseInt(request.getParameter("value"));

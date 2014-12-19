@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>Smart Meter Data Analytics System</title>
-    <link href="plugins/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
     <link href="plugins/multiselect/bootstrap-multiselect.css" rel="stylesheet">
 
@@ -21,7 +20,7 @@
     <script src="plugins/jquery/jquery-2.1.0.min.js"></script>
     <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="plugins/justified-gallery/jquery.justifiedgallery.min.js"></script>
     <script src="plugins/tinymce/tinymce.min.js"></script>
     <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
