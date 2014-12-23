@@ -47,7 +47,7 @@ public class PowerForcastCommand implements Command {
                 throw new SMASException("The forecast conditions are incomplete!");
             }
         } else {
-            throw new SMASException("Please select forcasting type!");
+            throw new SMASException("Please select forecasting type!");
         }
     }
 
@@ -90,13 +90,13 @@ public class PowerForcastCommand implements Command {
                 throw new SMASException("The forecast conditions are incomplete!");
             }
         } else {
-            throw new SMASException("Please select forcasting type!");
+            throw new SMASException("Please select forecasting type!");
         }
     }
 
     public void byNeuralNetwork(ServletContext ctx, HttpServletRequest request,
                                 HttpServletResponse response, JSONObject out) throws SMASException {
-        System.out.println("Forcast by NeuralNetwork");
+        System.out.println("Forecast by NeuralNetwork");
         int forcastLevel = Integer.parseInt(request.getParameter("level"));
         int meterid = Integer.parseInt(request.getParameter("value"));
         int forcastTime = Integer.parseInt(request.getParameter("forcasttime"));

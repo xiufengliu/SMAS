@@ -82,7 +82,7 @@ public class AuthorizationCommand implements Command {
                     throw new SMASException("Invalid role type");
                 }
             } else {
-                throw new SMASException("Cannot find your account! Please register!");
+                throw new SMASException("Incorrect username or password!");
             }
         } catch (Exception e) {
             e.printStackTrace();

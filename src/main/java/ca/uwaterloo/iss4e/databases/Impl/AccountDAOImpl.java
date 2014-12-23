@@ -116,7 +116,7 @@ public class AccountDAOImpl implements AccountDAO {
             pstmt.execute();
             pstmt.close();
         } catch (SQLException e) {
-            throw new SMASException(e);
+            throw new SMASException("Failed: username exists!");
         } finally {
             DAOUtils.freeConnection(dbConn);
         }

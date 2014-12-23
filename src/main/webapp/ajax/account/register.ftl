@@ -22,18 +22,18 @@
                     <form class="form-horizontal" role="form" action="/smas/servlet" method="post">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Username</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control required" placeholder="Username" name="username" value=${account.username}>
+                            <div class="col-sm-4  has-error">
+                                <input type="text" class="form-control"  placeholder="Username" name="username" value=${account.username}>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Password</label>
-                            <div class="col-sm-4">
-                                <input type="password" class="form-control required" placeholder="Password" data-toggle="tooltip" data-placement="bottom" title="Tooltip for password" name="password" value=${account.password}>
+                            <div class="col-sm-4  has-error">
+                                <input type="password" class="form-control"  placeholder="Password" data-toggle="tooltip" data-placement="bottom" title="Tooltip for password" name="password" value=${account.password}>
                             </div>
                             <label class="col-sm-2 control-label">Re-type password</label>
-                            <div class="col-sm-4">
-                                <input type="password" class="form-control required" placeholder="Re-type password" data-toggle="tooltip" data-placement="bottom" title="Tooltip for re-type password" name="retypepassword" value=${account.retypePassword}>
+                            <div class="col-sm-4  has-error">
+                                <input type="password" class="form-control"  placeholder="Re-type password" data-toggle="tooltip" data-placement="bottom" title="Tooltip for re-type password" name="retypepassword" value=${account.retypePassword}>
                             </div>
                         </div>
                         <fieldset>

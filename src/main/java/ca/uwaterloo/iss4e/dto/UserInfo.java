@@ -123,12 +123,13 @@ public class UserInfo {
         this.waterMeterIDs = waterMeterIDs;
     }
 
-    public JSONObject toJsonObject() {
+    public JSONObject toJsonObject() { // We currently haven't considered the use of watermeters.
         JSONObject obj = new JSONObject();
         obj.put("role", this.roleID);
-        int[] meterids = new int[powerMeterIDs.length + waterMeterIDs.length];
+        int[] meterids = new int[powerMeterIDs.length];
+        //int[] meterids = new int[powerMeterIDs.length + waterMeterIDs.length];
         System.arraycopy(powerMeterIDs, 0, meterids, 0, powerMeterIDs.length);
-        System.arraycopy(waterMeterIDs, 0, meterids, powerMeterIDs.length, waterMeterIDs.length);
+        //System.arraycopy(waterMeterIDs, 0, meterids, powerMeterIDs.length, waterMeterIDs.length);
         obj.put("mymeterids", meterids);
         return obj;
     }
