@@ -30,4 +30,5 @@ Video
 
 Publication
 ========================
-Xiufeng Liu, Lukasz Golab, Ihab F. Ilyas. SMAS: A Smart Meter Data Analysis System (demo). ICDE 2015. [PDF](https://db.tt/0SWiDFC6)
+1. X. Liu, L. Golab, and I. F. Ilyas. SMAS: A Smart Meter Data Analysis System (demo). ICDE 2015. [PDF](https://db.tt/0SWiDFC6)
+2. X. Liu, and P. S. Nielsen. Streamlining Smart Meter Data Analytics. In Proc. of the 10th Conference on Sustainable Development of Energy, Water and Environment Systems, SDEWES2015.0558, 1-14, 2015. [PDF](http://orbit.dtu.dk/fedora/objects/orbit:140092/datastreams/file_707af3a3-492d-40cc-81eb-65a3b860fb90/content)
