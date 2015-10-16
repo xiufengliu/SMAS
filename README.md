@@ -30,4 +30,4 @@ Video
 
 Publication
 ========================
-[Here](https://db.tt/0SWiDFC6) is the demo paper accepted by [ICDE 2015](http://www.icde2015.kr/cfd.html)
+Xiufeng Liu, Lukasz Golab, Ihab F. Ilyas. SMAS: A Smart Meter Data Analysis System (demo). ICDE 2015. [PDF](https://db.tt/0SWiDFC6)
